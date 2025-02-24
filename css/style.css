@@ -3,7 +3,7 @@
 :root{
    --main-color:#bbff01;
    --red:#e74c3c;
-   --oragen:#f39c12;
+   --oragen: #dfbbf2;
    --white:#fff;
    --black:#2c3e50;
    --light-color:#888;
@@ -60,7 +60,6 @@ body.active{
 }
 
 section{
-   padding:2rem;
    max-width: 1200px;
    margin: 0 auto;
 }
@@ -71,7 +70,6 @@ section{
 .inline-btn,
 .inline-option-btn,
 .inline-delete-btn{
-   border-radius: .5rem;
    padding: 1rem 3rem;
    font-size: 1.8rem;
    color: #fff;
@@ -180,70 +178,87 @@ section{
 }
 
 .header {
-   background-color: var(--white);
+   background-color: rgb(41, 3, 64);
    border-bottom: var(--border);
-   position: sticky;
-   top: 0;
-   left: 0;
-   right: 0;
+   position: relative;
+   right:300px;
    z-index: 1000;
+   height:70px;
+   width:1550px;
 }
 
 .header .flex {
-   padding: 1.5rem 2rem;
    display: flex;
    align-items: center;
    justify-content: space-between;
    position: relative;
 }
 
-.header .flex .logo {
-   font-size: 2.5rem;
-   color: var(--black);
-   font-weight: bolder;
+
+.header .flex .logo-img {
+   height: 85px;
+   width: 60px;
+   margin-right: 10px;
+   position:relative;
+   right:100px;
+   bottom:10px;
 }
 
-.header .flex .logo img {
-   height: 40px;
-   width: auto;
-   margin-right: 10px;
-}
+.header .flex .logo-text {
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #ffffff; 
+    position:relative;
+    right:80px;
+    bottom:40px;
+    justify-content:  left;
+ }
 
 .header .flex .navbar {
    display: flex;
-   gap: 2rem;
+   gap: 4rem;
+   color:white;
+   position: relative;
+   right:0px;
+   bottom:10px;
 }
 
 .header .flex .navbar a {
-   color: var(--black);
+   color: rgb(255, 255, 255);
    font-size: 1.6rem;
    text-decoration: none;
    display: flex;
    align-items: center;
 }
 
+.header .flex .navbar a:hover {
+    text-decoration: underline;
+    color:#dfbbf2;
+ }
+
 .header .flex .navbar a i {
    margin-right: 8px;
 }
 
-.header .flex .navbar a:hover {
-   color: var(--main-color);
-}
+
 
 .header .flex .search-form {
-   width: 50rem;
-   border-radius: .5rem;
+   width: 20rem;
+   height:1.5rem;
    display: flex;
    align-items: center;
    gap: 2rem;
    padding: 1.5rem 2rem;
    background-color: var(--light-bg);
+   position:relative;
+   bottom:10px;
+   left:50px;
 }
 
 .header .flex .search-form input {
    width: 100%;
    background: none;
-   font-size: 2rem;
+   font-size: 1rem;
    color: var(--black);
    border: none;
    outline: none;
@@ -262,41 +277,67 @@ section{
 }
 
 .header .flex .icons div {
-   font-size: 2rem;
+   font-size: 1.5rem;
    color: var(--black);
-   border-radius: .5rem;
-   height: 4.5rem;
+   height: 4rem;
    cursor: pointer;
-   width: 4.5rem;
+   width: 4rem;
    line-height: 4.4rem;
    background-color: var(--light-bg);
    text-align: center;
    margin-left: .5rem;
+   position: relative;
+   bottom:10px;
+   left:90px;
 }
 
 .header .flex .icons div:hover {
-   background-color: var(--black);
    color: var(--white);
+   background-color:#dfbbf2
+
 }
 
-/* Profile Section */
-.header .flex .profile {
-   position: absolute;
-   top: 120%;
-   right: 2rem;
-   background-color: var(--white);
-   border-radius: .5rem;
-   padding: 2rem;
-   text-align: center;
-   width: 30rem;
-   transform: scale(0);
-   transform-origin: top right;
-}
-
-.header .flex .profile.active {
-   transform: scale(1);
-   transition: .2s linear;
-}
+  .header .flex .profile.active {
+    transform: scale(1);
+    transition: 0.2s ease;
+ }
+ 
+ .header .flex .profile {
+    position: absolute;
+    top: calc(100% + (-23px)); 
+    right: -140px; 
+    background-color: var(--white);
+    padding: 2rem;
+    text-align: center;
+    width: 20rem;
+    transform: scale(0);
+    transform-origin: top right;
+    height: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .header .flex .profile.active {
+    transform: scale(1);
+    transition: 0.2s ease;
+ }
+ 
+ .header .flex .profile .option-btn {
+     display: block;
+     width: 100%;
+     padding: 1rem;
+     font-size: 1rem;
+     font-weight: bold;
+     color: var(--black);
+     background-color: var(--light-bg);
+     transition: background-color 0.3s ease;
+     position: relative;
+     bottom:20px;
+ }
+  
+ .header .flex .profile .option-btn:hover {
+     background-color: #dfbbf2;
+     color: var(--white);
+ }
 
 .header .flex .profile img {
    height: 10rem;

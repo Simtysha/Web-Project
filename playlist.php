@@ -181,8 +181,7 @@ if(isset($_POST['save_list'])){
 
 
 
-<?php include 'components/footer.php'; ?>
-
+ 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
    

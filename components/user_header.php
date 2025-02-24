@@ -15,16 +15,17 @@ if(isset($message)){
 
    <section class="flex">
 
-      <a href="home.php" class="logo">
-         <img src="images/logo.png" alt="logo" class="logo-img"> Virtu-Learn.
-      </a>
+   <a href="home.php">
+      <img src="images/logo.png" alt="logo" class="logo-img">
+      <span class="logo-text">Virtu-Learn</span>
+   </a>
 
       <div class="navbar">
-         <a href="home.php"><i class="fas fa-home"></i><span>home</span></a>
-         <a href="about.php"><i class="fas fa-question"></i><span>about us</span></a>
-         <a href="courses.php"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-         <a href="teachers.php"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
-         <a href="contact.php"><i class="fas fa-headset"></i><span>contact us</span></a>
+         <a href="home.php"><i class="fas fa-home"></i><span>Home</span></a>
+         <a href="about.php"><i class="fas fa-question"></i><span>About Us</span></a>
+         <a href="courses.php"><i class="fas fa-graduation-cap"></i><span>Courses</span></a>
+         <a href="teachers.php"><i class="fas fa-chalkboard-user"></i><span>Teachers</span></a>
+         <a href="contact.php"><i class="fas fa-headset"></i><span>Contact us</span></a>
       </div>
 
       <form action="search_course.php" method="post" class="search-form">
@@ -34,7 +35,6 @@ if(isset($message)){
 
       <div class="icons">
          <div id="user-btn" class="fas fa-user"></div>
-         <div id="toggle-btn" class="fas fa-sun"></div>
       </div>
 
       <div class="profile">
@@ -52,7 +52,6 @@ if(isset($message)){
          <?php
             }else{
          ?>
-         <h3>please login or register</h3>
          <div class="flex-btn">
             <a href="login.php" class="option-btn">login</a>
             <a href="register.php" class="option-btn">register</a>
@@ -88,23 +87,10 @@ if(isset($message)){
    <?php
       }else{
    ?>
-   <h3>please login or register</h3>
-   <div class="flex-btn">
-      <a href="login.php" class="option-btn">login</a>
-      <a href="register.php" class="option-btn">register</a>
-   </div>
    <?php
       }
    ?>
 </div>
 
-<!-- Updated Navbar without the sidebar -->
-<nav class="navbar">
-   <a href="home.php"><i class="fas fa-home"></i><span>home</span></a>
-   <a href="about.php"><i class="fas fa-question"></i><span>about us</span></a>
-   <a href="courses.php"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-   <a href="teachers.php"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
-   <a href="contact.php"><i class="fas fa-headset"></i><span>contact us</span></a>
-</nav>
 
 <!-- side bar section ends -->

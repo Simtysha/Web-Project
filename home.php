@@ -64,13 +64,7 @@ $total_bookmarked = $select_bookmark->rowCount();
       <?php
          }else{ 
       ?>
-      <div class="box" style="text-align: center;">
-         <h3 class="title">please login or register</h3>
-          <div class="flex-btn" style="padding-top: .5rem;">
-            <a href="login.php" class="option-btn">login</a>
-            <a href="register.php" class="option-btn">register</a>
-         </div>
-      </div>
+      
       <?php
       }
       ?>
@@ -173,8 +167,7 @@ $total_bookmarked = $select_bookmark->rowCount();
 
 
 <!-- footer section starts  -->
-<?php include 'components/footer.php'; ?>
-<!-- footer section ends -->
+ <!-- footer section ends -->
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
