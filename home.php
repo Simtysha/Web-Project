@@ -28,12 +28,10 @@ $total_bookmarked = $select_bookmark->rowCount();
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>home</title>
+   <title>Home</title>
 
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -41,9 +39,18 @@ $total_bookmarked = $select_bookmark->rowCount();
 
 <?php include 'components/user_header.php'; ?>
 
-<!-- quick select section starts  -->
+<section class="who-we-are">
+      <h1 class="heading">Who Are We</h1>
+      <p>Virtu-Learn is an innovative online tutoring platform designed to connect students and professionals with expert tutors across various subjects. Our mission is to make quality education accessible, personalized, and engaging for learners of all levels.</p>
+      <br>
+      <p>We believe that every individual has the right to a unique, engaging, and enriching educational experience. Our mission is to create personalized learning pathways that are thoughtfully designed to meet the needs of learners from all walks of life, regardless of age, background, or skill level. </p>
+      <br>
+      <p>By focusing on flexibility, inclusivity, and continuous growth, we are committed to empowering learners to thrive at every step of their educational pursuits, equipping them with the tools and knowledge they need for success in an ever-evolving world. </p>
+      <br>
+      <p>We offer a wide variety of courses and learning materials aimed at making education exciting and accessible. Whether you're a high school student getting ready for important exams, a professional looking to learn new skills, or someone simply curious about the world, we've got something for you.</p>
+   </section>
 
-<section class="quick-select">
+<section class="quick-select full-width">
 
    <h1 class="heading">quick options</h1>
 
@@ -70,7 +77,7 @@ $total_bookmarked = $select_bookmark->rowCount();
       ?>
 
       <div class="box">
-         <h3 class="title">top categories</h3>
+         <h3 class="title">Top Categories</h3>
          <div class="flex">
             <a href="search_course.php?"><i class="fas fa-code"></i><span>development</span></a>
             <a href="#"><i class="fas fa-chart-simple"></i><span>business</span></a>
@@ -82,32 +89,28 @@ $total_bookmarked = $select_bookmark->rowCount();
             <a href="#"><i class="fas fa-vial"></i><span>science</span></a>
          </div>
       </div>
+      </section>
 
+      <section class="popular-topics full-width">
+   <div class="box-container">
       <div class="box">
-         <h3 class="title">popular topics</h3>
+         <h3 class="title">Popular Topics</h3>
          <div class="flex">
             <a href="#"><i class="fab fa-html5"></i><span>HTML</span></a>
             <a href="#"><i class="fab fa-css3"></i><span>CSS</span></a>
-            <a href="#"><i class="fab fa-js"></i><span>javascript</span></a>
-            <a href="#"><i class="fab fa-react"></i><span>react</span></a>
+            <a href="#"><i class="fab fa-js"></i><span>JavaScript</span></a>
+            <a href="#"><i class="fab fa-react"></i><span>React</span></a>
             <a href="#"><i class="fab fa-php"></i><span>PHP</span></a>
-            <a href="#"><i class="fab fa-bootstrap"></i><span>bootstrap</span></a>
+            <a href="#"><i class="fab fa-bootstrap"></i><span>Bootstrap</span></a>
          </div>
       </div>
-
-      <div class="box tutor">
-         <h3 class="title">become a tutor</h3>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, laudantium.</p>
-         <a href="admin/register.php" class="inline-btn">get started</a>
-      </div>
-
    </div>
-
 </section>
 
-<!-- quick select section ends -->
+      
 
-<!-- courses section starts  -->
+   
+
 
 <section class="courses">
 
@@ -153,23 +156,13 @@ $total_bookmarked = $select_bookmark->rowCount();
 
 </section>
 
-<!-- courses section ends -->
+<section class="become-tutor full-width">
+      <h1 class="heading">Become a Tutor</h1>
+      <p>Join Virtu-Learn as a tutor and share your expertise with students worldwide. Inspire and educate the next generation of learners.</p>
+      <a href="admin/register.php" class="inline-btn">Get Started</a>
+   </section>
 
 
-
-
-
-
-
-
-
-
-
-
-<!-- footer section starts  -->
- <!-- footer section ends -->
-
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
    
 </body>

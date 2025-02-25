@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 
 :root{
-   --main-color:#bbff01;
+   --main-color:rgb(41, 3, 64);
    --red:#e74c3c;
    --oragen: #dfbbf2;
    --white:#fff;
@@ -160,19 +160,19 @@ section{
 
 .empty{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 1.5rem;
    text-align: center;
    width: 100%;
    font-size: 2rem;
-   color: var(--red);
+   color: black;
 }
 
 .heading {
    padding-bottom: 1.8rem;
    border-bottom: var(--border);
+   width:1400px;
    font-size: 2.5rem;
-   color: var(--black);
+   color: rgb(41, 3, 64);
    text-transform: capitalize;
    margin-bottom: 3rem;
 }
@@ -371,91 +371,228 @@ section{
    cursor: pointer;
    font-size: 2rem;
 }
-.quick-select .box-container{
+/* Who We Are Section */
+.who-we-are {
+   text-align: left;
+   background-color: var(--light-bg);
+   padding: 5rem 2rem;
+   position:relative;
+   right:250px;
+}
+
+.who-we-are .heading{
+   color:rgb(41, 3, 64);
+}
+
+.who-we-are p {
+   font-size: 1.8rem;
+   color: var(--light-color);
+   width: 1400px;
+   margin: 0 auto;
+   text-align: justify;
+}
+
+/* Quick Options Section */
+.quick-select .box-container {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(27.5rem, 1fr));
    gap: 1.5rem;
    align-items: flex-start;
    justify-content: center;
+   position: relative;
+   right: 230px;
+   width: 1400px;
 }
 
-.quick-select .box-container .box{
-   border-radius: .5rem;
+.quick-select .heading {
+   color: rgb(41, 3, 64);
+   position: relative;
+   right: 230px;
+   width: 1400px;
+}
+
+.quick-select .box {
    background-color: var(--white);
    padding: 2rem;
 }
 
-.quick-select .box-container .box .title{
+.quick-select .title {
    font-size: 2rem;
    color: var(--black);
 }
 
-.quick-select .box-container .box p{
-   line-height: 1.5;
-   padding-top: 1.5rem;
-   color: var(--light-color);
+.quick-select p {
    font-size: 1.8rem;
+   color: var(--light-color);
+   padding-top: 1.5rem;
 }
 
-.quick-select .box-container .box p span{
+.quick-select p span {
    color: var(--main-color);
 }
 
-.quick-select .box-container .tutor{
-   text-align: center;
-}
-
-.quick-select .box-container .tutor p{
-   padding-bottom: 1rem;
-}
-
-.quick-select .box-container .box .flex{
+.quick-select .flex {
    display: flex;
    flex-wrap: wrap;
-   gap: 1rem;
+   gap: 4rem;
    padding-top: 2rem;
 }
 
-.quick-select .box-container .box .flex a{
+.quick-select .flex a {
    padding: 1rem 1.5rem;
-   border-radius: .5rem;
    font-size: 1.6rem;
    background-color: var(--light-bg);
+   text-decoration: none;
+   color: var(--black); 
+   display: flex;
+   align-items: center;
 }
 
-.quick-select .box-container .box .flex a i{
+.quick-select .flex a i {
    margin-right: 1rem;
+   color: var(--black); 
+}
+
+.quick-select .flex a:hover {
+   background-color: #dfbbf2; 
+   color: var(--black); 
+}
+
+.quick-select .flex a:hover i {
+   color: var(--black); 
+}
+
+.popular-topics .box-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(27.5rem, 1fr));
+   gap: 1.5rem;
+   align-items: flex-start;
+   justify-content: center;
+   position: relative;
+   right: 230px;
+   width: 1400px;
+}
+
+.popular-topics .box {
+   background-color: var(--white);
+   padding: 2rem;
+   position: relative;
+   top: 50px;
+}
+
+.popular-topics .title {
+   font-size: 2rem;
    color: var(--black);
 }
 
-.quick-select .box-container .box .flex a span{
+.popular-topics .flex {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 6rem;
+   padding-top: 2rem;
+}
+
+.popular-topics .flex a {
+   padding: 1rem 1.5rem;
+   font-size: 1.6rem;
+   background-color: var(--light-bg);
+   text-decoration: none;
+   color: var(--black); 
+   display: flex;
+   align-items: center;
+}
+
+.popular-topics .flex a i {
+   margin-right: 1rem;
+   color: var(--black); 
+}
+
+.popular-topics .flex a:hover {
+   background-color: #dfbbf2;  
+   color: var(--black); 
+}
+
+.popular-topics .flex a:hover i {
+   color: var(--black);
+}
+
+
+.latest-courses {
+   background-color: var(--white);
+   text-align: center;
+}
+
+
+.latest-courses p {
+   font-size: 1.8rem;
    color: var(--light-color);
 }
 
-.quick-select .box-container .box .flex a:hover{
-   background-color: var(--black);
+.become-tutor {
+   background-color: var(--light-bg);
+   text-align: left;
+   color: var(--white);
+   padding: 5rem 2rem;
+   position: relative;
+   top: 150px;
 }
 
-.quick-select .box-container .box .flex a:hover i{
+.become-tutor .heading {
+   position: relative;
+   right: 230px;
+   width: 1400px;
+   color: rgb(41, 3, 64); 
+   font-size: 2.5rem; 
+}
+
+.become-tutor p {
+   font-size: 1.8rem;
+   margin-bottom: 2rem;
+   color:black;
+   position:relative;
+   right:230px;
+   width:1400px;
+}
+
+.become-tutor .inline-btn {
+   padding: 1rem 2rem;
+   background-color: rgb(41, 3, 64);
+   color: white;
+   font-size: 1.6rem;
+   text-decoration: none;
+   position:relative;
+   left:400px;
+   top:20px;
+   margin-bottom:150px;
+}
+
+.become-tutor .inline-btn:hover {
+   background-color: #dfbbf2; ;
    color: var(--white);
 }
-
-.quick-select .box-container .box .flex a:hover span{
-   color: var(--white)  ;
+.courses .heading{
+   position: relative;
+   top:100px;
+   right:230px;
+   width:1400px;
 }
+
 
 .courses .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 35rem);
    gap: 1.5rem;
    align-items: flex-start;
-   justify-content: center;
+   justify-content: left;
+   position:relative;
+   left: 300px;
+   top:100px;
 }
 
-.courses .box-container .box{
-   border-radius: .5rem;
+.courses .box-container .box {
    background-color: var(--white);
    padding: 2rem;
+   border-radius: 0; 
 }
 
 .courses .box-container .box .tutor{
@@ -499,9 +636,26 @@ section{
    padding: .5rem 0;
 }
 
-.courses .more-btn{
+.courses .more-btn {
    margin-top: 2rem;
    text-align: center;
+}
+
+.courses .more-btn .inline-option-btn {
+   display: inline-block;
+   padding: 1rem 2rem;
+   background-color: rgb(41, 3, 64); 
+   color: var(--white); 
+   font-size: 1.8rem;
+   text-decoration: none;
+   transition: background-color 0.3s ease;
+   position: relative;
+   top:120px;
+   right:110px;
+}
+
+.courses .more-btn .inline-option-btn:hover {
+   background-color:  #dfbbf2; 
 }
 
 .about .row{
