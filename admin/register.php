@@ -87,17 +87,15 @@ if(isset($message)){
             <p>your profession <span>*</span></p>
             <select name="profession" class="box" required>
                <option value="" disabled selected>-- select your profession</option>
-               <option value="developer">developer</option>
-               <option value="desginer">desginer</option>
-               <option value="musician">musician</option>
-               <option value="biologist">biologist</option>
-               <option value="teacher">teacher</option>
-               <option value="engineer">engineer</option>
-               <option value="lawyer">lawyer</option>
-               <option value="accountant">accountant</option>
-               <option value="doctor">doctor</option>
-               <option value="journalist">journalist</option>
-               <option value="photographer">photographer</option>
+               <option value="developer">Developer</option>
+               <option value="desginer">Desginer</option>
+               <option value="engineer">Engineer</option>
+               <option value="lawyer">Lawyer</option>
+               <option value="accountant">Accountant</option>
+               <option value="doctor">Doctor</option>
+               <option value="journalist">Journalist</option>
+               <option value="photographer">Photographer</option>
+               <option value="photographer">IT Specialist</option>
             </select>
             <p>your email <span>*</span></p>
             <input type="email" name="email" placeholder="enter your email" maxlength="20" required class="box">
