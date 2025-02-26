@@ -47,7 +47,7 @@ if(isset($_POST['tutor_fetch'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>tutor's profile</title>
+   <title>Tutor's Profile</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -64,7 +64,10 @@ if(isset($_POST['tutor_fetch'])){
 
 <section class="tutor-profile">
 
-   <h1 class="heading">profile details</h1>
+   <a href="teachers.php" class="back-arrow">
+      <i class="fas fa-arrow-left"></i>
+   </a>
+   <h1 class="heading">Profile Details</h1>
 
    <div class="details">
       <div class="tutor">
@@ -73,10 +76,10 @@ if(isset($_POST['tutor_fetch'])){
          <span><?= $fetch_tutor['profession']; ?></span>
       </div>
       <div class="flex">
-         <p>total playlists : <span><?= $total_playlists; ?></span></p>
-         <p>total videos : <span><?= $total_contents; ?></span></p>
-         <p>total likes : <span><?= $total_likes; ?></span></p>
-         <p>total comments : <span><?= $total_comments; ?></span></p>
+         <p>Total Playlists : <span><?= $total_playlists; ?></span></p>
+         <p>Total Videos : <span><?= $total_contents; ?></span></p>
+         <p>Total Likes : <span><?= $total_likes; ?></span></p>
+         <p>Total Comments : <span><?= $total_comments; ?></span></p>
       </div>
    </div>
 
@@ -86,9 +89,9 @@ if(isset($_POST['tutor_fetch'])){
 
 <section class="courses">
 
-   <h1 class="heading">latest courese</h1>
+   <h1 class="heading" style="position:Relative;top:150px;right:190px;">Latest Courses</h1>
 
-   <div class="box-container">
+   <div class="box-container" style="margin-top: 100px;margin-left:50px;margin-bottom:100px;">
 
       <?php
          $select_courses = $conn->prepare("SELECT * FROM `playlist` WHERE tutor_id = ? AND status = ?");
@@ -124,18 +127,6 @@ if(isset($_POST['tutor_fetch'])){
 
 </section>
 
-<!-- courses section ends -->
-
-
-
-
-
-
-
-
-
-
-<?php include 'components/footer.php'; ?>    
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>

@@ -75,27 +75,27 @@ if(isset($_POST['submit'])){
 
 <?php include 'components/user_header.php'; ?>
 
-<section class="form-container">
+<section class="form-container" style="margin-top:25px;">
 
    <form class="register" action="" method="post" enctype="multipart/form-data">
-      <h3>create account</h3>
+      <h3>Create Account</h3>
       <div class="flex">
          <div class="col">
-            <p>your name <span>*</span></p>
-            <input type="text" name="name" placeholder="eneter your name" maxlength="50" required class="box">
-            <p>your email <span>*</span></p>
-            <input type="email" name="email" placeholder="enter your email" maxlength="20" required class="box">
+            <p>Your Name <span>*</span></p>
+            <input type="text" name="name" placeholder=" Enter your Name" maxlength="50" required class="box">
+            <p>Your Email <span>*</span></p>
+            <input type="email" name="email" placeholder="Enter your Email" maxlength="20" required class="box">
          </div>
          <div class="col">
-            <p>your password <span>*</span></p>
-            <input type="password" name="pass" placeholder="enter your password" maxlength="20" required class="box">
-            <p>confirm password <span>*</span></p>
-            <input type="password" name="cpass" placeholder="confirm your password" maxlength="20" required class="box">
+            <p>Your Password <span>*</span></p>
+            <input type="password" name="pass" placeholder="Enter your Password" maxlength="20" required class="box">
+            <p>Confirm Password <span>*</span></p>
+            <input type="password" name="cpass" placeholder="Confirm your Password" maxlength="20" required class="box">
          </div>
       </div>
-      <p>select pic <span>*</span></p>
+      <p>Select Picture <span>*</span></p>
       <input type="file" name="image" accept="image/*" required class="box">
-      <p class="link">already have an account? <a href="login.php">login now</a></p>
+      <p class="link">Already have an account? <a href="login.php">Login now</a></p>
       <input type="submit" name="submit" value="register now" class="btn">
    </form>
 

@@ -102,8 +102,8 @@ section {
 .inline-btn:hover,
 .inline-option-btn:hover,
 .inline-delete-btn:hover{
-   background-color: var(--black);
-   color: var(--white);
+   background-color: #dfbbf2;;
+   color: black;
 }
 
 .flex-btn{
@@ -521,12 +521,15 @@ section {
    color: var(--white);
    padding: 5rem 2rem;
    position: relative;
-   top: 150px;
+   top: 10px;
+   margin-bottom:50px;
+
 }
 
 .become-tutor .heading {
    position: relative;
    right: 230px;
+   top:80px;
    width: 1350px;
    color: rgb(41, 3, 64); 
    font-size: 2.5rem; 
@@ -538,6 +541,7 @@ section {
    color:black;
    position:relative;
    right:230px;
+   top:80px;
    width:1350px;
 }
 
@@ -549,14 +553,15 @@ section {
    text-decoration: none;
    position:relative;
    left:400px;
-   top:20px;
- 
+   top:90px;
+   margin-bottom: 40px;
 }
 
 .become-tutor .inline-btn:hover {
    background-color: #dfbbf2; ;
    color: black;
 }
+
 .courses .heading{
    position: relative;
    top:100px;
@@ -568,18 +573,21 @@ section {
 .courses .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 35rem);
-   gap: 1.5rem;
+   gap: 5rem 15rem;
    align-items: flex-start;
    justify-content: left;
    position:relative;
-   left: 300px;
+   right: 230px;
    top:100px;
+   width:1350px;
 }
 
 .courses .box-container .box {
    background-color: var(--white);
    padding: 2rem;
    border-radius: 0; 
+   margin-bottom:50px;
+   
 }
 
 .courses .box-container .box .tutor{
@@ -637,11 +645,29 @@ section {
    text-decoration: none;
    transition: background-color 0.3s ease;
    position: relative;
-   top:120px;
+   top:90px;
    right:110px;
 }
 
 .courses .more-btn .inline-option-btn:hover {
+   background-color:  #dfbbf2; 
+   color:black;
+}
+
+.courses .box-container .box .inline-btn {
+   display: inline-block;
+   padding: 1rem 2rem;
+   background-color: rgb(41, 3, 64); 
+   color: var(--white); 
+   font-size: 1.8rem;
+   text-decoration: none;
+   transition: background-color 0.3s ease;
+   position: relative;
+   top:5px;
+   left:80px;
+}
+
+.courses .box-container .box .inline-btn:hover {
    background-color:  #dfbbf2; 
    color:black;
 }
@@ -1285,7 +1311,10 @@ section {
    gap: 1.5rem;
    padding: 1.5rem 2rem;
    background-color: var(--white);
-   border-radius: .5rem;
+   position: relative;
+   right:190px;
+   top:50px;
+   width:1310px;
 }
 
 .teachers .search-tutor input{
@@ -1306,18 +1335,28 @@ section {
    color: var(--main-color);
 }
 
+.teachers .heading{
+   position:relative;
+   top:50px;
+   right:190px;
+}
 .teachers .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 35rem);
-   gap: 1.5rem;
+   gap: 2rem 13em;
    align-items: flex-start;
    justify-content: center;
+   width:1350px;
+   position:relative;
+   right:210px;
+   top:100px;
 }
 
 .teachers .box-container .box{
-   border-radius: .5rem;
    padding: 2rem;
    background-color: var(--white);
+   margin-bottom:25px;
+
 }
 
 .teachers .box-container .box .tutor{
@@ -1369,11 +1408,35 @@ section {
    padding-bottom: .5rem;
 }
 
+.back-arrow {
+   position: relative;
+   top: 20px;
+   right: 270px;
+   font-size: 2rem;
+   color: var(--main-color);
+   text-decoration: none;
+   padding: 10px;
+   transition: transform 0.3s ease;
+}
+
+.back-arrow:hover {
+   transform: scale(1.1); 
+   color:  #dfbbf2;
+}
+
+
+.tutor-profile .heading{
+   position:relative;
+   top:50px;
+   right:190px;
+}
 .tutor-profile .details{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
    text-align: center;
+   position:relative;
+   right:140px;
+   top:90px;
 }
 
 .tutor-profile .details .tutor{
@@ -1406,13 +1469,19 @@ section {
    flex-wrap: wrap;
 }
 
-.tutor-profile .details .flex p{
+.tutor-profile .details .flex p {
    flex: 1 1 25rem;
    border-radius: .5rem;
    background-color: var(--light-bg);
    padding: 1rem 3rem;
    font-size: 2rem;
    color: var(--light-color);
+   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.tutor-profile .details .flex p:hover {
+   transform: translateY(-10px); /* Moves box up */
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Adds shadow */
 }
 
 .tutor-profile .details .flex p span{
@@ -1424,6 +1493,8 @@ section {
    align-items: center;
    gap: 1.5rem;
    flex-wrap: wrap;
+   position:relative;
+   right:100px;
 }
 
 .contact .row .image{
@@ -1432,15 +1503,15 @@ section {
 
 .contact .row .image img{
    height: 50rem;
-   width: 100%;
+   width: 70%;
 }
 
 .contact .row form{
    flex:1 1 30rem;
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
    text-align: center;
+   margin-top:15px;
 }
 
 .contact .row form h3{
@@ -1452,7 +1523,6 @@ section {
 .contact .row form .box{
    width: 100%;
    margin: 1rem 0;
-   border-radius: .5rem;
    background-color: var(--light-bg);
    padding: 1.4rem;
    color: var(--black);
@@ -1468,13 +1538,15 @@ section {
    margin-top: 3rem;
    display: flex;
    align-items: flex-start;
-   gap: 1.5rem;
+   gap: 10rem;
    flex-wrap: wrap;
+   position:relative;
+   right:100px;
+   margin-bottom:15px;
 }
 
 .contact .box-container .box{
    flex: 1 1 30rem;
-   border-radius: .5rem;
    background-color: var(--white);
    padding: 2rem;
    text-align: center;
@@ -1583,11 +1655,12 @@ section {
    align-items: center;
    justify-content: center;
    min-height:80vh;
+   position:relative;
+   right:150px;
 }
 
 .form-container form{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
 }
 
