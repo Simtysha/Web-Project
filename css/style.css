@@ -45,25 +45,14 @@ html{
 body{
    background-color: var(--light-bg);
    padding-left: 30rem;
+   height:100%;
 }
 
-body.dark{
-   --white:#222;
-   --black:#fff;
-   --light-color:#aaa;
-   --light-bg:#333;
-   --border:.1rem solid rgba(255,255,255,.2);
-}
 
-body.active{
-   padding-left: 0;
-}
-
-section{
+section {
    max-width: 1200px;
    margin: 0 auto;
 }
-
 .btn,
 .option-btn,
 .delete-btn,
@@ -170,7 +159,7 @@ section{
 .heading {
    padding-bottom: 1.8rem;
    border-bottom: var(--border);
-   width:1400px;
+   width:1350px;
    font-size: 2.5rem;
    color: rgb(41, 3, 64);
    text-transform: capitalize;
@@ -178,7 +167,7 @@ section{
 }
 
 .header {
-   background-color: rgb(41, 3, 64);
+   background-color: rgb(0, 0, 0);
    border-bottom: var(--border);
    position: relative;
    right:300px;
@@ -374,7 +363,6 @@ section{
 /* Who We Are Section */
 .who-we-are {
    text-align: left;
-   background-color: var(--light-bg);
    padding: 5rem 2rem;
    position:relative;
    right:250px;
@@ -386,8 +374,8 @@ section{
 
 .who-we-are p {
    font-size: 1.8rem;
-   color: var(--light-color);
-   width: 1400px;
+   color: black;
+   width: 1350px;
    margin: 0 auto;
    text-align: justify;
 }
@@ -401,18 +389,18 @@ section{
    justify-content: center;
    position: relative;
    right: 230px;
-   width: 1400px;
+   width: 1350px;
 }
 
 .quick-select .heading {
    color: rgb(41, 3, 64);
    position: relative;
    right: 230px;
-   width: 1400px;
+   width: 1350px;
 }
 
 .quick-select .box {
-   background-color: var(--white);
+   background-color: rgb(248, 241, 253);
    padding: 2rem;
 }
 
@@ -434,7 +422,7 @@ section{
 .quick-select .flex {
    display: flex;
    flex-wrap: wrap;
-   gap: 4rem;
+   gap: 3rem;
    padding-top: 2rem;
 }
 
@@ -470,11 +458,11 @@ section{
    justify-content: center;
    position: relative;
    right: 230px;
-   width: 1400px;
+   width: 1350px;
 }
 
 .popular-topics .box {
-   background-color: var(--white);
+   background-color: rgb(248, 241, 253);;
    padding: 2rem;
    position: relative;
    top: 50px;
@@ -529,7 +517,6 @@ section{
 }
 
 .become-tutor {
-   background-color: var(--light-bg);
    text-align: left;
    color: var(--white);
    padding: 5rem 2rem;
@@ -540,7 +527,7 @@ section{
 .become-tutor .heading {
    position: relative;
    right: 230px;
-   width: 1400px;
+   width: 1350px;
    color: rgb(41, 3, 64); 
    font-size: 2.5rem; 
 }
@@ -551,7 +538,7 @@ section{
    color:black;
    position:relative;
    right:230px;
-   width:1400px;
+   width:1350px;
 }
 
 .become-tutor .inline-btn {
@@ -563,18 +550,18 @@ section{
    position:relative;
    left:400px;
    top:20px;
-   margin-bottom:150px;
+ 
 }
 
 .become-tutor .inline-btn:hover {
    background-color: #dfbbf2; ;
-   color: var(--white);
+   color: black;
 }
 .courses .heading{
    position: relative;
    top:100px;
    right:230px;
-   width:1400px;
+   width:1350px;
 }
 
 
@@ -656,57 +643,128 @@ section{
 
 .courses .more-btn .inline-option-btn:hover {
    background-color:  #dfbbf2; 
+   color:black;
 }
 
-.about .row{
+.carousel {
+   position: relative;
+   height: 500px;
+   overflow: hidden;
+   width: 450px;
+   right: 200px;
+   top: 60px;
+}
+
+.carousel-slide {
+   position: absolute;
+   width: 80%;
+   height: 100%;
+   transition: transform 2s ease-in-out;
+}
+
+.carousel-slide img {
+   width: 80%;
+   height: 300px; 
+   object-fit: cover; 
+}
+
+.about .row {
    display: flex;
    align-items: center;
    gap: 1.5rem;
    flex-wrap: wrap;
 }
 
-.about .row .image{
+.about .row .image {
    flex: 1 1 40rem;
 }
 
-.about .row .image img{
+.about .row .image img {
    width: 100%;
    height: 50rem;
+   object-fit: cover; 
 }
 
-.about .row .content{
+.about .row .content {
    flex: 1 1 40rem;
-   text-align: center;
+   text-align: justify;
+   justify-content: center;
+   width: 1350px;
+   padding-left: 230px;
 }
 
-.about .row .content h3{
+.about .row .content h3 {
    font-size: 2.5rem;
-   color: var(--black);
+   color: rgb(41, 3, 64); 
+   position:relative;
+   bottom:460px;
+
 }
 
-.about .row .content p{
+.about .row .content h4 {
+   font-size: 2.5rem;
+   color: rgb(41, 3, 64); 
+   position:relative;
+   bottom:450px;
+
+}
+
+.about .row .content p {
    line-height: 2;
    font-size: 1.8rem;
-   color: var(--light-color);
+   color: black; 
    padding: 1rem 0;
+   width: 800px;
+   position:relative;
+   bottom:460px;
 }
 
-.about .box-container{
+.about .row .content h4 + p {
+   line-height: 2;
+   font-size: 1.8rem;
+   color: black; 
+   padding: 1rem 0;
+   width: 800px;
+   position:relative;
+   bottom:450px;
+}
+.about .box-container .heading{
+   position:Relative;
+   right:190px;
+   top:550px;
+}
+   
+.about .box-container {
    margin-top: 3rem;
    display: flex;
-   gap: 1.5rem;
-   flex-wrap: wrap;
+   justify-content: space-between; 
+   gap: 35px;
+   flex-wrap: wrap; 
+   position: relative;
+   bottom:1000px;
+   width:1350px;
+   
 }
 
-.about .box-container .box{
-   flex: 1 1 25rem;
+.about .box-container .box {
+   flex: 1 1 22%; 
    display: flex;
-   background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
    align-items: center;
-   gap: 2rem;
+   gap: 3rem;
+   position:relative;
+   top:500px;
+   right:200px;
+   background-color:#e7d1f3 ;
+   min-width: 18rem; 
+   transition: all 0.3s ease;
 }
+
+.about .box-container .box:hover {
+   transform: translateY(-10px); 
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+}
+
 
 .about .box-container .box i{
    font-size: 3rem;
@@ -714,29 +772,73 @@ section{
 }
 
 .about .box-container .box h3{
-   color: var(--main-color);
+   color: black;
    font-size: 2.5rem;
    margin-bottom: .2rem;
 }
 
 .about .box-container .box span{
    font-size: 1.6rem;
-   color: var(--light-color);
+   color: black;
 }
 
-.reviews .box-container{
+.view-courses-btn {
+   font-size: 1.8rem;
+   background-color: rgb(41, 3, 64); 
+   color: white;
+   padding: 1rem 2rem;
+   margin-top: 2rem; 
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+   position:relative;
+   bottom:480px;
+   left:500px;
+}
+
+.view-courses-btn:hover {
+   background-color:   #dfbbf2; 
+   color:black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+   .about .row .image img{
+      height: auto;
+   }
+
+}
+
+.reviews .heading{
+   position:Relative;
+   right:190px;
+   bottom:400px;
+   width:1350px;
+}
+
+.reviews .box-container {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-   gap: 1.5rem;
+   gap: 10rem;
    align-items: flex-start;
    justify-content: center;
+   position: relative;
+   bottom: 400px;
+   right: 190px;
+   width: 1350px;
 }
 
-.reviews .box-container .box{
-   border-radius: .5rem;
+.reviews .box-container .box {
    padding: 2rem;
    background-color: var(--white);
    padding-top: 1.5rem;
+   transition: transform 0.3s ease, box-shadow 0.3s ease; 
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+   border-radius: 0.5rem;
+}
+
+.reviews .box-container .box:hover {
+   transform: translateY(-10px); 
+   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); 
 }
 
 .reviews .box-container .box p{
@@ -1607,36 +1709,6 @@ section{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-.footer{
-   position: sticky;
-   bottom: 0; right: 0; left: 0;
-   background-color: var(--white);
-   border-top: var(--border);
-   padding:2.5rem 2rem;
-   text-align: center;
-   color: var(--black);
-   font-size: 2rem;
-   margin-top: 1.5rem;
-   z-index: 1000;
-   /* padding-bottom: 9.5rem; */
-}
-
-.footer span{
-   color: var(--main-color);
-}
 
 /* media queries  */
 

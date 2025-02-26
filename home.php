@@ -79,19 +79,19 @@ $total_bookmarked = $select_bookmark->rowCount();
       <div class="box">
          <h3 class="title">Top Categories</h3>
          <div class="flex">
-            <a href="search_course.php?"><i class="fas fa-code"></i><span>development</span></a>
-            <a href="#"><i class="fas fa-chart-simple"></i><span>business</span></a>
-            <a href="#"><i class="fas fa-pen"></i><span>design</span></a>
-            <a href="#"><i class="fas fa-chart-line"></i><span>marketing</span></a>
-            <a href="#"><i class="fas fa-music"></i><span>music</span></a>
-            <a href="#"><i class="fas fa-camera"></i><span>photography</span></a>
-            <a href="#"><i class="fas fa-cog"></i><span>software</span></a>
-            <a href="#"><i class="fas fa-vial"></i><span>science</span></a>
+            <a href="search_course.php?"><i class="fas fa-code"></i><span>Development</span></a>
+            <a href="#"><i class="fas fa-chart-simple"></i><span>Business</span></a>
+            <a href="#"><i class="fas fa-pen"></i><span>Design</span></a>
+            <a href="#"><i class="fas fa-chart-line"></i><span>Marketing</span></a>
+            <a href="#"><i class="fas fa-music"></i><span>Music</span></a>
+            <a href="#"><i class="fas fa-camera"></i><span>Photography</span></a>
+            <a href="#"><i class="fas fa-cog"></i><span>Software</span></a>
+            <a href="#"><i class="fas fa-vial"></i><span>Science</span></a>
          </div>
       </div>
       </section>
 
-      <section class="popular-topics full-width">
+      <section class="popular-topics">
    <div class="box-container">
       <div class="box">
          <h3 class="title">Popular Topics</h3>
