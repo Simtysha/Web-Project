@@ -65,10 +65,10 @@ if(isset($_POST['submit'])){
 
       <form action="" method="post">
          <h3>Get in Touch</h3>
-         <input type="text" placeholder="Enter your Name" required maxlength="100" name="name" class="box">
-         <input type="email" placeholder="Enter your Email" required maxlength="100" name="email" class="box">
-         <input type="number" min="0" max="9999999999" placeholder="Enter your Number" required maxlength="10" name="number" class="box">
-         <textarea name="msg" class="box" placeholder="Enter your Message" required cols="30" rows="10" maxlength="1000"></textarea>
+         <input type="text" placeholder="Enter Name" required maxlength="100" name="name" class="box">
+         <input type="email" placeholder="Enter Email" required maxlength="100" name="email" class="box">
+         <input type="number" min="0" max="9999999999" placeholder="Enter Number" required maxlength="10" name="number" class="box">
+         <textarea name="msg" class="box" placeholder="Enter Message" required cols="30" rows="10" maxlength="1000"></textarea>
          <input type="submit" value="Send Message" class="inline-btn" name="submit">
       </form>
 
