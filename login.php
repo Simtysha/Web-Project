@@ -53,10 +53,10 @@ if(isset($_POST['submit'])){
 
    <form action="" method="post" enctype="multipart/form-data" class="login">
       <h3>Welcome Back!</h3>
-      <p>Your Email <span>*</span></p>
-      <input type="email" name="email" placeholder="enter your email" maxlength="50" required class="box">
-      <p>Your Password <span>*</span></p>
-      <input type="password" name="pass" placeholder="enter your password" maxlength="20" required class="box">
+      <p>Email <span>*</span></p>
+      <input type="email" name="email" placeholder="Enter email" maxlength="50" required class="box">
+      <p>Password <span>*</span></p>
+      <input type="password" name="pass" placeholder="Enter password" maxlength="20" required class="box">
       <p class="link">Don't have an account? <a href="register.php">Register now</a></p>
       <input type="submit" name="submit" value="login now" class="btn">
    </form>

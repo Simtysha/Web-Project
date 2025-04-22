@@ -66,31 +66,3 @@ if(isset($message)){
 </header>
 
 <!-- header section ends -->
-
-<!-- side bar section removed, since we are not using it anymore -->
-
-<!-- New header layout -->
-
-<!-- profile dropdown inside header for the logged-in user -->
-<div class="profile-dropdown">
-   <?php
-      $select_profile = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
-      $select_profile->execute([$user_id]);
-      if($select_profile->rowCount() > 0){
-      $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
-   ?>
-   <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="Profile">
-   <h3><?= $fetch_profile['name']; ?></h3>
-   <span>student</span>
-   <a href="profile.php" class="btn">view profile</a>
-   <a href="components/user_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
-   <?php
-      }else{
-   ?>
-   <?php
-      }
-   ?>
-</div>
-
-
-<!-- side bar section ends -->

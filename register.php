@@ -81,16 +81,16 @@ if(isset($_POST['submit'])){
       <h3>Create Account</h3>
       <div class="flex">
          <div class="col">
-            <p>Your Name <span>*</span></p>
-            <input type="text" name="name" placeholder=" Enter your Name" maxlength="50" required class="box">
-            <p>Your Email <span>*</span></p>
-            <input type="email" name="email" placeholder="Enter your Email" maxlength="20" required class="box">
+            <p>Name <span>*</span></p>
+            <input type="text" name="name" placeholder=" Enter Name" maxlength="50" required class="box">
+            <p>Email <span>*</span></p>
+            <input type="email" name="email" placeholder="Enter Email" maxlength="20" required class="box">
          </div>
          <div class="col">
-            <p>Your Password <span>*</span></p>
-            <input type="password" name="pass" placeholder="Enter your Password" maxlength="20" required class="box">
+            <p>Password <span>*</span></p>
+            <input type="password" name="pass" placeholder="Enter Password" maxlength="20" required class="box">
             <p>Confirm Password <span>*</span></p>
-            <input type="password" name="cpass" placeholder="Confirm your Password" maxlength="20" required class="box">
+            <input type="password" name="cpass" placeholder="Confirm Password" maxlength="20" required class="box">
          </div>
       </div>
       <p>Select Picture <span>*</span></p>

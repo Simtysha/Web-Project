@@ -37,11 +37,23 @@ if(isset($_COOKIE['user_id'])){
 
    <div class="box-container">
 
-      <?php
-         if(isset($_POST['search_course']) or isset($_POST['search_course_btn'])){
+   <?php
+      $search_course = '';
+
+      // Check POST first (from a form)
+      if (isset($_POST['search_course']) || isset($_POST['search_course_btn'])) {
          $search_course = $_POST['search_course'];
-         $select_courses = $conn->prepare("SELECT * FROM `playlist` WHERE title LIKE '%{$search_course}%' AND status = ?");
-         $select_courses->execute(['active']);
+      } 
+      // Check GET (from a link like ?search=Web+Design)
+      elseif (isset($_GET['search'])) {
+         $search_course = $_GET['search'];
+      }
+
+      if (!empty($search_course)) {
+         $select_courses = $conn->prepare("SELECT * FROM `playlist` WHERE title LIKE ? AND status = ?");
+         $like_search = "%$search_course%";
+         $select_courses->execute([$like_search, 'active']);
+
          if($select_courses->rowCount() > 0){
             while($fetch_course = $select_courses->fetch(PDO::FETCH_ASSOC)){
                $course_id = $fetch_course['id'];
@@ -49,7 +61,7 @@ if(isset($_COOKIE['user_id'])){
                $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
-      ?>
+   ?>
       <div class="box">
          <div class="tutor">
             <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
@@ -62,15 +74,15 @@ if(isset($_COOKIE['user_id'])){
          <h3 class="title"><?= $fetch_course['title']; ?></h3>
          <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
       </div>
-      <?php
+   <?php
+            }
+         } else {
+            echo '<p class="empty">no courses found!</p>';
          }
-      }else{
-         echo '<p class="empty">no courses found!</p>';
-      }
-      }else{
+      } else {
          echo '<p class="empty">please search something!</p>';
       }
-      ?>
+   ?>
 
    </div>
 
@@ -78,18 +90,5 @@ if(isset($_COOKIE['user_id'])){
 
 <!-- courses section ends -->
 
-
-
-
-
-
-
-
-
-
- 
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
-   
 </body>
 </html>

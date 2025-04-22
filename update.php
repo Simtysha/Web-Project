@@ -117,20 +117,20 @@ if(isset($_POST['submit'])){
       <h3>update profile</h3>
       <div class="flex">
          <div class="col">
-            <p>your name</p>
+            <p>Name</p>
             <input type="text" name="name" placeholder="<?= $fetch_profile['name']; ?>" maxlength="100" class="box">
-            <p>your email</p>
+            <p>Email</p>
             <input type="email" name="email" placeholder="<?= $fetch_profile['email']; ?>" maxlength="100" class="box">
-            <p>update pic</p>
+            <p>Update picture</p>
             <input type="file" name="image" accept="image/*" class="box">
          </div>
          <div class="col">
-               <p>old password</p>
-               <input type="password" name="old_pass" placeholder="enter your old password" maxlength="50" class="box">
-               <p>new password</p>
-               <input type="password" name="new_pass" placeholder="enter your new password" maxlength="50" class="box">
-               <p>confirm password</p>
-               <input type="password" name="cpass" placeholder="confirm your new password" maxlength="50" class="box">
+               <p>Old password</p>
+               <input type="password" name="old_pass" placeholder="Enter old password" maxlength="50" class="box">
+               <p>New password</p>
+               <input type="password" name="new_pass" placeholder="Enter new password" maxlength="50" class="box">
+               <p>Confirm password</p>
+               <input type="password" name="cpass" placeholder="Confirm password" maxlength="50" class="box">
          </div>
       </div>
       <input type="submit" name="submit" value="update profile" class="btn">

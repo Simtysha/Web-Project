@@ -79,35 +79,33 @@ $total_bookmarked = $select_bookmark->rowCount();
       <div class="box">
          <h3 class="title">Top Categories</h3>
          <div class="flex">
-            <a href="search_course.php?"><i class="fas fa-code"></i><span>Development</span></a>
-            <a href="#"><i class="fas fa-chart-simple"></i><span>Business</span></a>
-            <a href="#"><i class="fas fa-pen"></i><span>Design</span></a>
-            <a href="#"><i class="fas fa-chart-line"></i><span>Marketing</span></a>
-            <a href="#"><i class="fas fa-music"></i><span>Music</span></a>
-            <a href="#"><i class="fas fa-camera"></i><span>Photography</span></a>
-            <a href="#"><i class="fas fa-cog"></i><span>Software</span></a>
-            <a href="#"><i class="fas fa-vial"></i><span>Science</span></a>
+            <a href="search_course.php?search=Web+Design"><i class="fas fa-code"></i><span>Web Design</span></a>
+            <a href="search_course.php?search=Taxation"><i class="fas fa-chart-simple"></i><span>Taxation</span></a>
+            <a href="search_course.php?search=Branding"><i class="fas fa-pen"></i><span>Branding</span></a>
+            <a href="search_course.php?search=Accounting"><i class="fas fa-chart-line"></i><span>Accounting</span></a>
+            <a href="search_course.php?search=News"><i class="fa-solid fa-newspaper"></i><span>News</span></a>
+            <a href="search_course.php?search=Journalism"><i class="fas fa-camera"></i><span>Journalism</span></a>
+            <a href="search_course.php?search=Graphic"><i class="fa-regular fa-object-group"></i><span>Graphics</span></a>
          </div>
       </div>
       </section>
+
 
       <section class="popular-topics">
    <div class="box-container">
       <div class="box">
          <h3 class="title">Popular Topics</h3>
          <div class="flex">
-            <a href="#"><i class="fab fa-html5"></i><span>HTML</span></a>
-            <a href="#"><i class="fab fa-css3"></i><span>CSS</span></a>
-            <a href="#"><i class="fab fa-js"></i><span>JavaScript</span></a>
-            <a href="#"><i class="fab fa-react"></i><span>React</span></a>
-            <a href="#"><i class="fab fa-php"></i><span>PHP</span></a>
-            <a href="#"><i class="fab fa-bootstrap"></i><span>Bootstrap</span></a>
+            <a href="search_course.php?search=Web"><i class="fab fa-html5"></i><span>HTML</span></a>
+            <a href="search_course.php?search=Advanced+CSS"><i class="fab fa-css3"></i><span>CSS</span></a>
+            <a href="search_course.php?search=Advanced+CSS+&+JavaScript"><i class="fab fa-js"></i><span>JavaScript</span></a>
+            <a href="search_course.php?search=Ethical+Hacking"><i class="fa-solid fa-computer"></i><span>Hacking</span></a>
+            <a href="search_course.php?search=Introduction+to+Corporate+Law"><i class="fa-solid fa-gavel"></i><span>Law</span></a>
+            <a href="search_course.php?search=Cybersecurity"><i class="fa-solid fa-shield-halved"></i><span>Cybersecurity</span></a>
          </div>
       </div>
    </div>
 </section>
-
-      
 
    
 
