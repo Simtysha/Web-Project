@@ -99,26 +99,6 @@ $total_bookmarked = $select_bookmark->rowCount();
 <!-- profile section ends -->
 
 
-
-
-
-
-
-
-
-
-
-
-<!-- footer section starts  -->
-
-<footer class="footer">
-
-   &copy; copyright @ 2022 by <span>mr. web designer</span> | all rights reserved!
-
-</footer>
-
-<!-- footer section ends -->
-
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
    
