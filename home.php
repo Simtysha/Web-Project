@@ -56,24 +56,10 @@ $total_bookmarked = $select_bookmark->rowCount();
 
    <div class="box-container">
 
-      <?php
-         if($user_id != ''){
-      ?>
-      <div class="box">
-         <h3 class="title">likes and comments</h3>
-         <p>total likes : <span><?= $total_likes; ?></span></p>
-         <a href="likes.php" class="inline-btn">view likes</a>
-         <p>total comments : <span><?= $total_comments; ?></span></p>
-         <a href="comments.php" class="inline-btn">view comments</a>
-         <p>saved playlist : <span><?= $total_bookmarked; ?></span></p>
-         <a href="bookmark.php" class="inline-btn">view bookmark</a>
-      </div>
-      <?php
-         }else{ 
-      ?>
+     
       
       <?php
-      }
+      
       ?>
 
       <div class="box">
@@ -148,9 +134,7 @@ $total_bookmarked = $select_bookmark->rowCount();
 
    </div>
 
-   <div class="more-btn">
-      <a href="courses.php" class="inline-option-btn">view more</a>
-   </div>
+
 
 </section>
 

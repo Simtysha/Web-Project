@@ -46,15 +46,17 @@ if(isset($message)){
          ?>
          <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
-         <span>student</span>
-         <a href="profile.php" class="btn">view profile</a>
-         <a href="components/user_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
+         <span>Student</span>
+         <div class="profile-buttons">
+         <a href="profile.php" class="btn" style="position:relative;top:150px;">View profile</a>
+         <a href="components/user_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn"style="position:Relative;top:150px;";>Logout</a>
+            </div>
          <?php
             }else{
          ?>
          <div class="flex-btn">
-            <a href="login.php" class="option-btn">login</a>
-            <a href="register.php" class="option-btn">register</a>
+            <a href="login.php" class="option-btn">Login</a>
+            <a href="register.php" class="option-btn">Register</a>
          </div>
          <?php
             }

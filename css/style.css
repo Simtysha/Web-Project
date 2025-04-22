@@ -88,12 +88,12 @@ section {
 
 .option-btn,
 .inline-option-btn{
-   background-color: var(--oragen);
+   background-color: rgb(41, 3, 64);
 }
 
 .delete-btn,
 .inline-delete-btn{
-   background-color: var(--red);
+   background-color:rgb(41, 3, 64);
 }
 
 .btn:hover,
@@ -128,7 +128,6 @@ section {
    margin: 0 auto;
    background-color: var(--white);
    top: 2rem;
-   border-radius: .5rem;
 }
 
 .message span{
@@ -301,20 +300,49 @@ section {
     width: 20rem;
     transform: scale(0);
     transform-origin: top right;
-    height: 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 200px;
  }
  
  .header .flex .profile.active {
     transform: scale(1);
     transition: 0.2s ease;
+    height:300px;
+    background-color: transparent;
  }
+ .profile .flex-btn {
+   background-color: #cb87ef;
+   padding: 20px;
+   text-align: center;
+}
+
+.profile .flex {
+   background-color:#cb87ef;
+   padding: 20px;
+
+}
+
+.profile-buttons {
+   background-color: #cb87ef;
+   gap: 10px;
+  position:relative;
+  bottom:180px;
+  height:250px;
+  z-index:-1;
+}
+
+ .header .flex .profile.active .btn {
+   font-size:12px; 
+}
+
+.header .flex .profile.active .delete-btn {
+font-size:12px;
+}
  
  .header .flex .profile .option-btn {
      display: block;
      width: 100%;
      padding: 1rem;
-     font-size: 1rem;
+     font-size: 12px;
      font-weight: bold;
      color: var(--black);
      background-color: var(--light-bg);
@@ -618,7 +646,6 @@ section {
 
 .courses .box-container .box .thumb{
    width: 100%;
-   border-radius: .5rem;
    height: 20rem;
    object-fit: cover;
    margin-bottom: .3rem;
@@ -685,7 +712,7 @@ section {
    position: absolute;
    width: 80%;
    height: 100%;
-   transition: transform 2s ease-in-out;
+   transition: transform 1s ease-in-out;
 }
 
 .carousel-slide img {
@@ -859,7 +886,6 @@ section {
    padding-top: 1.5rem;
    transition: transform 0.3s ease, box-shadow 0.3s ease; 
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-   border-radius: 0.5rem;
 }
 
 .reviews .box-container .box:hover {
@@ -898,6 +924,12 @@ section {
    font-size: 1.5rem;
 }
 
+.playlist .heading {
+   position:relative;
+   top:50px;
+   right:230px;
+}
+
 .playlist .row{
    display: flex;
    align-items: center;
@@ -905,6 +937,10 @@ section {
    flex-wrap: wrap;
    padding: 2rem;
    background-color: var(--white);
+   width:1400px;
+   position:relative;
+   right:230px;
+   top:55px;
 }
 
 .playlist .row .col{
@@ -913,32 +949,32 @@ section {
 
 .playlist .row .col .save-list button{
    font-size: 2rem;
-   border-radius: .5rem;
-   background-color: var(--light-bg);
+   background-color: rgb(41, 3, 64);
    padding: 1.2rem 2.5rem;
    cursor: pointer;
    margin-bottom: 2rem;
+   color:white;
 }
 
 .playlist .row .col .save-list button i{
-   color: var(--black);
+   color:white;
    margin-right: 1rem;
 }
 
 .playlist .row .col .save-list button span{
-   color: var(--light-color);
+   color:white;
 }
 
 .playlist .row .col .save-list button:hover{
-   background-color: var(--black);
+   background-color:  #dfbbf2; 
 }
 
 .playlist .row .col .save-list button:hover i{
-   color: var(--white);
+   color:black
 }
 
 .playlist .row .col .save-list button:hover span{
-   color: var(--white);
+   color: black
 }
 
 .playlist .row .col .thumb{
@@ -949,7 +985,6 @@ section {
 .playlist .row .col .thumb span{
    position: absolute;
    top: 1rem; left: 1rem;
-   border-radius: .5rem;
    padding: .5rem 1.5rem;
    font-size: 2rem;
    color: #fff;
@@ -967,6 +1002,8 @@ section {
    display: flex;
    align-items: center;
    gap: 1.7rem;
+   position:relative;
+   left:50px;
 }
 
 .playlist .row .col .tutor img{
@@ -989,6 +1026,8 @@ section {
 
 .playlist .row .col .details{
    padding-top: 1.5rem;
+   position:relative;
+   left:50px;
 }
 
 .playlist .row .col .details h3{
@@ -1001,6 +1040,8 @@ section {
    line-height: 2;
    color: var(--light-color);
    font-size: 1.7rem;
+   position:relative;
+  
 }
 
 .playlist .row .col .details .date{
@@ -1017,25 +1058,33 @@ section {
    color: var(--light-color);
 }
 
+.videos-container .heading{
+   position:relative;
+   top:80px;
+   right:230px;
+}
 .videos-container .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 35rem);
-   gap: 1.5rem;
+   gap: 5rem;
    align-items: flex-start;
    justify-content: center;
+   position:relative;
+   right:230px;
+   top:70px;
+
 }
 
 .videos-container .box-container .box{
    position: relative;
-   border-radius: .5rem;
    padding: 2rem;
    background-color: var(--white);
+   margin-bottom: 25px;
 }
 
 .videos-container .box-container .box img{
    height: 20rem;
    width: 100%;
-   border-radius: .5rem;
    object-fit: cover;
 }
 
@@ -1049,7 +1098,6 @@ section {
    justify-content: center;
    font-size: 4rem;
    color: #fff;
-   border-radius: .5rem;
    display: none;
 }
 
@@ -1070,12 +1118,34 @@ section {
 .watch-video .video-details{
    background-color: var(--white);
    padding: 2rem;
-   border-radius: .5rem;
+   margin-top:20px;
+   position:relative;
+   right:150px;
+
+}
+
+.watch-video .video-details .like-btn:not(.liked) {
+   background-color: rgb(41, 3, 64);
+   color: #ffffff; 
+   border-radius: 0;
+}
+.watch-video .video-details .like-btn:not(.liked):hover {
+   border-radius: 0;
+   background-color:#dfbbf2; 
+}
+
+.watch-video .video-details .like-btn:not(.liked) i {
+   color: #ffffff; 
+}
+
+
+.watch-video .video-details .like-btn:not(.liked) span {
+   color: white;
 }
 
 .watch-video .video-details .video{
    width: 100%;
-   border-radius: .5rem;
+   margin-top:20px;
    background: #000;
    height: 50rem;
 }
@@ -1147,7 +1217,6 @@ section {
    cursor: pointer;
    padding: 1rem 2.5rem;
    font-size: 2rem;
-   border-radius: .5rem;
 }
 
 .watch-video .video-details .flex button i{
@@ -1182,15 +1251,22 @@ section {
    white-space: pre-line;
 }
 
+.comments .heading{
+   position: relative;
+   right:150px;
+   margin-top:25px;
+   width:1200px;
+}
+
 .comments .add-comment{
    background-color: var(--white);
-   border-radius: .5rem;
    margin-bottom: 3rem;
    padding: 2rem;
+   position: relative;
+   right:140px;
 }
 
 .comments .add-comment textarea{
-   border-radius: .5rem;
    padding: 1.4rem;
    width: 100%;
    height: 20rem;
@@ -1198,14 +1274,17 @@ section {
    resize: none;
    font-size: 1.8rem;
    color: var(--black);
+   
 }
 
 .comments .show-comments{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
    display: grid;
    gap: 2.5rem;
+   position: relative;
+   right:140px;
+   margin-bottom: 25px;
 }
 
 .comments .show-comments .user{
@@ -1259,7 +1338,6 @@ section {
 }
 
 .comments .show-comments .text{
-   border-radius: .5rem;
    background-color: var(--light-bg);
    padding: 1rem 1.5rem;
    color: var(--black);
@@ -1280,21 +1358,29 @@ section {
    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); 
 }
 
+.edit-comment .heading{
+   position:relative;
+   right:150px;
+   top:10px;
+   width:1200px;
+}
 .edit-comment form{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
+   position:relative;
+   right:150px;
+   
 }
 
 .edit-comment form .box{
    width: 100%;
-   border-radius: .5rem;
    padding: 1.4rem;
    font-size: 1.8rem;
    color: var(--black);
    background-color: var(--light-bg);
    resize: none;
    height: 20rem;
+  
 }
 
 .edit-comment form .flex{
@@ -1471,17 +1557,16 @@ section {
 
 .tutor-profile .details .flex p {
    flex: 1 1 25rem;
-   border-radius: .5rem;
    background-color: var(--light-bg);
    padding: 1rem 3rem;
    font-size: 2rem;
    color: var(--light-color);
-   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+   transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .tutor-profile .details .flex p:hover {
-   transform: translateY(-10px); /* Moves box up */
-   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Adds shadow */
+   transform: translateY(-10px); 
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
 }
 
 .tutor-profile .details .flex p span{
@@ -1579,8 +1664,19 @@ section {
 
 .profile .details{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
+   position: relative;
+   top:30px;
+   right:150px;
+   height:450px;
+
+}
+
+.profile .heading{
+   position:relative;
+   top:20px;
+   right:150px;
+   width:1200px;
 }
 
 .profile .details .user{
@@ -1599,12 +1695,12 @@ section {
 .profile .details .user h3{
    font-size: 2rem;
    margin: .5rem 0;
-   color: var(--black);
+   color: black;
 }
 
 .profile .details .user p{
    font-size: 1.7rem;
-   color: var(--light-color);
+   color: black;
 }
 
 .profile .details .box-container{
@@ -1612,13 +1708,16 @@ section {
    flex-wrap: wrap;
    align-items: flex-end;
    gap: 1.5rem;
+   position:relative;
+  
 }
 
 .profile .details .box-container .box{
-   background-color: var(--light-bg);
-   border-radius: .5rem;
+   background-color: #dfbbf2;
    padding: 2rem;
    flex: 1 1 30rem;
+   
+   
 }
 
 .profile .details .box-container .box .flex{
@@ -1626,12 +1725,12 @@ section {
    align-items: center;
    gap: 1.7rem;
    margin-bottom: 1rem;
+  
 }
 
 .profile .details .box-container .box .flex i{
    height: 4.5rem;
    width: 4.5rem;
-   border-radius: .5rem;
    background-color: var(--black);
    line-height: 4.4rem;
    font-size: 2rem;
@@ -1647,7 +1746,7 @@ section {
 
 .profile .details .box-container .box .flex span{
    font-size: 1.5rem;
-   color: var(--light-color);
+
 }
 
 .form-container{
@@ -1707,7 +1806,6 @@ section {
 
 .form-container form .box{
    width: 100%;
-   border-radius: .5rem;
    margin: 1rem 0;
    font-size: 1.8rem;
    color: var(--black);
@@ -1735,7 +1833,6 @@ section {
 
 .liked-videos .box-container .box{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
    overflow-x: hidden;
 }
@@ -1750,7 +1847,6 @@ section {
 .liked-videos .box-container .box .tutor img{
    height: 5rem;
    width: 5rem;
-   border-radius: 50%;
    object-fit: cover;
 }
 
@@ -1769,7 +1865,6 @@ section {
    width: 100%;
    height: 20rem;
    object-fit: cover;
-   border-radius: .5rem;
    margin-bottom: 1rem;
 }
 
