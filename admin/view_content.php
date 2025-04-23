@@ -176,7 +176,6 @@ if(isset($_POST['delete_comment'])){
 
 
 
-<?php include '../components/footer.php'; ?>
 
 <script src="../js/admin_script.js"></script>
 

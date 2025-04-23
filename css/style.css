@@ -613,7 +613,7 @@ font-size:12px;
 .courses .box-container .box {
    background-color: var(--white);
    padding: 2rem;
-   border-radius: 0; 
+   border-radius: 0px; 
    margin-bottom:50px;
    
 }
@@ -1758,9 +1758,10 @@ font-size:12px;
    right:150px;
 }
 
-.form-container form{
+.form-container .form{
    background-color: var(--white);
    padding: 2rem;
+   border-radius: 0%;
 }
 
 .form-container .login{

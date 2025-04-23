@@ -123,46 +123,44 @@ if(isset($_POST['submit'])){
 <section class="form-container" style="min-height: calc(100vh - 19rem);">
 
    <form class="register" action="" method="post" enctype="multipart/form-data">
-      <h3>update profile</h3>
+      <h3>Update profile</h3>
       <div class="flex">
          <div class="col">
             <p>your name </p>
             <input type="text" name="name" placeholder="<?= $fetch_profile['name']; ?>" maxlength="50"  class="box">
-            <p>your profession </p>
+            <p>Your profession </p>
             <select name="profession" class="box">
                <option value="" selected><?= $fetch_profile['profession']; ?></option>
-               <option value="developer">developer</option>
-               <option value="desginer">desginer</option>
-               <option value="musician">musician</option>
-               <option value="biologist">biologist</option>
-               <option value="teacher">teacher</option>
-               <option value="engineer">engineer</option>
-               <option value="lawyer">lawyer</option>
-               <option value="accountant">accountant</option>
-               <option value="doctor">doctor</option>
-               <option value="journalist">journalist</option>
-               <option value="photographer">photographer</option>
+               <option value="desginer">Designer</option>
+               <option value="musician">Musician</option>
+               <option value="biologist">Biologist</option>
+               <option value="teacher">Teacher</option>
+               <option value="engineer">Engineer</option>
+               <option value="lawyer">Lawyer</option>
+               <option value="accountant">Accountant</option>
+               <option value="doctor">Doctor</option>
+               <option value="journalist">Journalist</option>
+               <option value="photographer">Photographer</option>
             </select>
-            <p>your email </p>
+            <p>Your email </p>
             <input type="email" name="email" placeholder="<?= $fetch_profile['email']; ?>" maxlength="20"  class="box">
          </div>
          <div class="col">
-            <p>old password :</p>
-            <input type="password" name="old_pass" placeholder="enter your old password" maxlength="20"  class="box">
-            <p>new password :</p>
-            <input type="password" name="new_pass" placeholder="enter your new password" maxlength="20"  class="box">
-            <p>confirm password :</p>
-            <input type="password" name="cpass" placeholder="confirm your new password" maxlength="20"  class="box">
+            <p>Old password :</p>
+            <input type="password" name="old_pass" placeholder="Enter your old password" maxlength="20"  class="box">
+            <p>New password :</p>
+            <input type="password" name="new_pass" placeholder="Enter your new password" maxlength="20"  class="box">
+            <p>Confirm password :</p>
+            <input type="password" name="cpass" placeholder="Confirm your new password" maxlength="20"  class="box">
          </div>
       </div>
-      <p>update pic :</p>
-      <input type="file" name="image" accept="image/*"  class="box">
-      <input type="submit" name="submit" value="update now" class="btn">
+      <p>Update pic :</p>
+      <input type="file" name="image" accept="Image/*"  class="box">
+      <input type="submit" name="submit" value="Update now" class="btn">
    </form>
 
 </section>
 
-<!-- registe section ends -->
 
 
 
@@ -173,7 +171,6 @@ if(isset($_POST['submit'])){
 
 
 
-<?php include '../components/footer.php'; ?>
 
 <script src="../js/admin_script.js"></script>
    
