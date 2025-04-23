@@ -79,7 +79,7 @@ if(isset($message)){
 <section class="form-container">
 
    <form class="register" action="" method="post" enctype="multipart/form-data">
-      <h3>register new</h3>
+      <h3>Register new</h3>
       <div class="flex">
          <div class="col">
             <p>Name <span>*</span></p>

@@ -407,10 +407,14 @@ section{
 
 .form-container .login{
    width: 50rem;
+   position:relative;
+   left:50px;
 }
 
 .form-container .register{
    width: 80rem;
+   position:relative;
+   left:50px;
 }
 
 .form-container form h3{
@@ -657,14 +661,18 @@ section{
    grid-template-columns: repeat(auto-fit, 35rem);
    align-items: flex-start;
    justify-content: center;
-   gap: 1.5rem;
+   gap: 10rem;
+   width:1300px;
+   position:relative;
+   bottom:100px;
+   left:200px;
 }
 
 .playlists .box-container .box{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
    overflow-x:hidden;
+   margin-bottom: 50px;
 }
 
 .playlists .box-container .box .thumb{
@@ -782,6 +790,12 @@ section{
    height: 20rem;
    margin: .5rem 0;
 }
+.playlist-details .heading{
+   font-size:25px;
+   position:relative;
+   top:10px;
+   right:230px;
+}
 
 .playlist-details .row{
    display: flex;
@@ -790,6 +804,10 @@ section{
    align-items: flex-start;
    background-color: var(--white);
    padding: 2rem;
+   position:relative;
+   top:15px;
+   right:230px;
+   width:1300px;
 }
 
 .playlist-details .row .thumb{
@@ -846,6 +864,7 @@ section{
    white-space: pre-line;
 }
 
+
 .contents .heading{
    font-size:25px;
    position:relative;
@@ -862,7 +881,9 @@ section{
    grid-template-columns: repeat(auto-fit, 35rem);
    align-items: flex-start;
    justify-content: center;
-   gap: 1.5rem;
+   gap: 10rem;
+   width:1300px;
+   margin-bottom: 10px;
 }
 
 .contents .box-container .box{
@@ -870,8 +891,10 @@ section{
    padding: 2rem;
    overflow-x: hidden;
    position:relative;
-   top:150px;
-   right:445px;
+   top:60px;
+   right:270px;
+   margin-bottom: 50px;
+   
 }
 
 .contents .box-container .box .thumb{
@@ -911,8 +934,9 @@ section{
 
 .view-content .container{
    background-color: var(--white);
-   border-radius: .5rem;
    padding: 2rem;
+   position:relative;
+   right:150px;
 }
 
 .view-content .container .video{
@@ -990,8 +1014,11 @@ section{
    display: grid;
    gap: 2.5rem;
    position:relative;
-   top:60px;
+   top:40px;
    right:230px;
+   margin-bottom: 50px;
+   width:1300px;
+
 }
 
 
@@ -1022,8 +1049,7 @@ section{
 }
 
 .comments .show-comments .content{
-   margin-bottom: 2rem;
-}
+   margin-bottom: 20px;}
 
 .comments .show-comments .content p{
    font-size: 2rem;
