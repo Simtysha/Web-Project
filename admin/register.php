@@ -36,7 +36,13 @@ if(isset($_POST['submit'])){
          $insert_tutor = $conn->prepare("INSERT INTO `tutors`(id, name, profession, email, password, image) VALUES(?,?,?,?,?,?)");
          $insert_tutor->execute([$id, $name, $profession, $email, $cpass, $rename]);
          move_uploaded_file($image_tmp_name, $image_folder);
-         $message[] = 'new tutor registered! please login now';
+         
+         // Set cookie for the newly registered admin
+         setcookie('tutor_id', $id, time() + 60*60*24*30, '/');
+         
+         // Redirect to dashboard directly after successful registration
+         header('Location: dashboard.php');
+         exit();
       }
    }
 
@@ -76,10 +82,11 @@ if(isset($message)){
 
 <!-- register section starts  -->
 
-<section class="form-container">
+<section class="form-container" style="margin-top:25px;">
 
-   <form class="register" action="" method="post" enctype="multipart/form-data">
-      <h3>Register new</h3>
+<form class="register" action="" method="post" enctype="multipart/form-data">
+      <h3>Create Tutor Account</h3>
+      <input type="hidden" name="register_type" value="tutor">
       <div class="flex">
          <div class="col">
             <p>Name <span>*</span></p>
@@ -95,7 +102,7 @@ if(isset($message)){
                <option value="doctor">Doctor</option>
                <option value="journalist">Journalist</option>
                <option value="photographer">Photographer</option>
-               <option value="photographer">IT Specialist</option>
+               <option value="IT Specialist">IT Specialist</option>
             </select>
             <p>Email <span>*</span></p>
             <input type="email" name="email" placeholder="Enter email" maxlength="20" required class="box">
@@ -103,14 +110,15 @@ if(isset($message)){
          <div class="col">
             <p>Password <span>*</span></p>
             <input type="password" name="pass" placeholder="Enter password" maxlength="20" required class="box">
-            <p>Confirm password <span>*</span></p>
+            <p>Confirm Password <span>*</span></p>
             <input type="password" name="cpass" placeholder="Confirm password" maxlength="20" required class="box">
-            <p>Select picture <span>*</span></p>
+            <p>Select Picture <span>*</span></p>
             <input type="file" name="image" accept="image/*" required class="box">
          </div>
       </div>
       <p class="link">Already have an account? <a href="login.php">Login now</a></p>
-      <input type="submit" name="submit" value="register now" class="btn">
+      <input type="submit" name="submit" value="Register now" class="btn">
+ 
    </form>
 
 </section>
