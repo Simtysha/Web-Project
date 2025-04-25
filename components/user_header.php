@@ -1,5 +1,7 @@
 <?php
-if(isset($message)){
+// Only display messages in the header if the display_in_header flag is true
+// Since we're displaying messages in the main content, we'll skip displaying them here
+if(isset($message) && isset($display_in_header) && $display_in_header === true){
    foreach($message as $message){
       echo '
       <div class="message">
