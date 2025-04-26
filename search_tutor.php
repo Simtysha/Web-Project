@@ -2,9 +2,9 @@
 
 include 'components/connect.php';
 
-if(isset($_COOKIE['user_id'])){
+if (isset($_COOKIE['user_id'])) {
    $user_id = $_COOKIE['user_id'];
-}else{
+} else {
    $user_id = '';
 }
 
@@ -12,6 +12,7 @@ if(isset($_COOKIE['user_id'])){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,28 +26,29 @@ if(isset($_COOKIE['user_id'])){
    <link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
 
-<?php include 'components/user_header.php'; ?>
+   <?php include 'components/user_header.php'; ?>
 
-<section class="teachers">
+   <section class="teachers">
 
-   <h1 class="heading">expert tutors</h1>
+      <h1 class="heading">expert tutors</h1>
 
-   <form action="" method="post" class="search-tutor">
-      <input type="text" name="search_tutor" maxlength="100" placeholder="search tutor..." required>
-      <button type="submit" name="search_tutor_btn" class="fas fa-search"></button>
-   </form>
+      <form action="" method="post" class="search-tutor">
+         <input type="text" name="search_tutor" maxlength="100" placeholder="search tutor..." required>
+         <button type="submit" name="search_tutor_btn" class="fas fa-search"></button>
+      </form>
 
-   <div class="box-container">
+      <div class="box-container">
 
-      <?php
-         if(isset($_POST['search_tutor']) or isset($_POST['search_tutor_btn'])){
+         <?php
+         if (isset($_POST['search_tutor']) or isset($_POST['search_tutor_btn'])) {
             $search_tutor = $_POST['search_tutor'];
             $select_tutors = $conn->prepare("SELECT * FROM `tutors` WHERE name LIKE '%{$search_tutor}%'");
             $select_tutors->execute();
-            if($select_tutors->rowCount() > 0){
-               while($fetch_tutor = $select_tutors->fetch(PDO::FETCH_ASSOC)){
+            if ($select_tutors->rowCount() > 0) {
+               while ($fetch_tutor = $select_tutors->fetch(PDO::FETCH_ASSOC)) {
 
                   $tutor_id = $fetch_tutor['id'];
 
@@ -65,41 +67,39 @@ if(isset($_COOKIE['user_id'])){
                   $count_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ?");
                   $count_comments->execute([$tutor_id]);
                   $total_comments = $count_comments->rowCount();
-      ?>
-      <div class="box">
-         <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-            <div>
-               <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_tutor['profession']; ?></span>
-            </div>
-         </div>
-         <p>playlists : <span><?= $total_playlists; ?></span></p>
-         <p>total videos : <span><?= $total_contents ?></span></p>
-         <p>total likes : <span><?= $total_likes ?></span></p>
-         <p>total comments : <span><?= $total_comments ?></span></p>
-         <form action="tutor_profile.php" method="post">
-            <input type="hidden" name="tutor_email" value="<?= $fetch_tutor['email']; ?>">
-            <input type="submit" value="view profile" name="tutor_fetch" class="inline-btn">
-         </form>
-      </div>
-      <?php
+         ?>
+                  <div class="box">
+                     <div class="tutor">
+                        <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
+                        <div>
+                           <h3><?= $fetch_tutor['name']; ?></h3>
+                           <span><?= $fetch_tutor['profession']; ?></span>
+                        </div>
+                     </div>
+                     <p>playlists : <span><?= $total_playlists; ?></span></p>
+                     <p>total videos : <span><?= $total_contents ?></span></p>
+                     <p>total likes : <span><?= $total_likes ?></span></p>
+                     <p>total comments : <span><?= $total_comments ?></span></p>
+                     <form action="tutor_profile.php" method="post">
+                        <input type="hidden" name="tutor_email" value="<?= $fetch_tutor['email']; ?>">
+                        <input type="submit" value="view profile" name="tutor_fetch" class="inline-btn">
+                     </form>
+                  </div>
+         <?php
                }
-            }else{
+            } else {
                echo '<p class="empty">no results found!</p>';
             }
-         }else{
+         } else {
             echo '<p class="empty">please search something!</p>';
          }
-      ?>
+         ?>
 
-   </div>
+      </div>
 
-</section>
+   </section>
 
-<!-- teachers section ends -->
-
-
+   <!-- teachers section ends -->
 
 
 
@@ -108,9 +108,12 @@ if(isset($_COOKIE['user_id'])){
 
 
 
- 
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
-   
+
+
+
+   <!-- custom js file link  -->
+   <script src="js/script.js"></script>
+
 </body>
+
 </html>

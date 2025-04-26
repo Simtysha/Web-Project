@@ -2,49 +2,63 @@
 
 include 'components/connect.php';
 
-if(isset($_COOKIE['user_id'])){
-   $user_id = $_COOKIE['user_id'];
-}else{
-   $user_id = '';
-}
-
-if(isset($_GET['get_id'])){
-   $get_id = $_GET['get_id'];
-}else{
-   $get_id = '';
+if (!isset($_COOKIE['user_id'])) {
    header('location:home.php');
+   exit();
 }
 
-if(isset($_POST['save_list'])){
+$user_id = $_COOKIE['user_id'];
+$get_id = isset($_GET['get_id']) ? filter_var($_GET['get_id'], FILTER_SANITIZE_STRING) : '';
 
-   if($user_id != ''){
-      
-      $list_id = $_POST['list_id'];
-      $list_id = filter_var($list_id, FILTER_SANITIZE_STRING);
+if (!$get_id) {
+   header('location:home.php');
+   exit();
+}
 
-      $select_list = $conn->prepare("SELECT * FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
-      $select_list->execute([$user_id, $list_id]);
+// Handle AJAX requests
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+   $response = array('status' => 'error', 'message' => 'Invalid action');
 
-      if($select_list->rowCount() > 0){
-         $remove_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
-         $remove_bookmark->execute([$user_id, $list_id]);
-         $message[] = 'playlist removed!';
-      }else{
-         $insert_bookmark = $conn->prepare("INSERT INTO `bookmark`(user_id, playlist_id) VALUES(?,?)");
-         $insert_bookmark->execute([$user_id, $list_id]);
-         $message[] = 'playlist saved!';
+   if (isset($_POST['action']) && $_POST['action'] === 'toggle_bookmark') {
+      try {
+         $list_id = filter_var($_POST['list_id'], FILTER_SANITIZE_STRING);
+
+         // Verify playlist exists and is active
+         $verify_playlist = $conn->prepare("SELECT id FROM `playlist` WHERE id = ? AND status = 'active' LIMIT 1");
+         $verify_playlist->execute([$list_id]);
+
+         if ($verify_playlist->rowCount() == 0) {
+            $response = array('status' => 'error', 'message' => 'Invalid playlist or playlist is not active');
+         } else {
+            $select_list = $conn->prepare("SELECT 1 FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
+            $select_list->execute([$user_id, $list_id]);
+
+            if ($select_list->rowCount() > 0) {
+               $remove_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
+               $remove_bookmark->execute([$user_id, $list_id]);
+               $response = array('status' => 'success', 'message' => 'Playlist removed from bookmarks!', 'bookmarked' => false);
+            } else {
+               $insert_bookmark = $conn->prepare("INSERT INTO `bookmark`(user_id, playlist_id) VALUES(?,?)");
+               $insert_bookmark->execute([$user_id, $list_id]);
+               $response = array('status' => 'success', 'message' => 'Playlist saved to bookmarks!', 'bookmarked' => true);
+            }
+         }
+      } catch (PDOException $e) {
+         $response = array('status' => 'error', 'message' => 'Database error occurred');
+         error_log("Database Error: " . $e->getMessage());
       }
-
-   }else{
-      $message[] = 'please login first!';
    }
 
+   header('Content-Type: application/json');
+   echo json_encode($response);
+   exit();
 }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,117 +71,176 @@ if(isset($_POST['save_list'])){
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
+   <style>
+      .notification {
+         position: fixed;
+         bottom: 20px;
+         right: 20px;
+         padding: 15px 25px;
+         border-radius: 8px;
+         background-color: #4CAF50;
+         color: white;
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+         z-index: 1000;
+         display: none;
+         font-size: 1.6rem;
+         transform: translateY(100%);
+         animation: slideUp 0.3s forwards;
+      }
+
+      @keyframes slideUp {
+         to {
+            transform: translateY(0);
+         }
+      }
+
+      .notification.error {
+         background-color: #f44336;
+      }
+
+      .save-list button {
+         transition: all 0.3s ease;
+      }
+
+      .save-list button:hover {
+         transform: translateY(-2px);
+      }
+
+      .videos-container .box {
+         transition: all 0.3s ease;
+      }
+
+      .videos-container .box:hover {
+         transform: translateY(-5px);
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .video-count {
+         background: rgba(0, 0, 0, 0.7);
+         color: white;
+         padding: 0.5rem 1rem;
+         border-radius: 5px;
+         position: absolute;
+         top: 1rem;
+         left: 1rem;
+         font-size: 1.4rem;
+      }
+
+      .empty {
+         text-align: center;
+         padding: 2rem;
+         font-size: 1.8rem;
+         color: #666;
+      }
+   </style>
+
 </head>
+
 <body>
 
-<?php include 'components/user_header.php'; ?>
+   <?php include 'components/user_header.php'; ?>
 
-<!-- playlist section starts  -->
+   <!-- Notification area -->
+   <div id="notification" class="notification"></div>
 
-<section class="playlist">
+   <!-- playlist section starts  -->
 
-   <h1 class="heading">Playlist Details</h1>
+   <section class="playlist">
 
-   <div class="row">
+      <h1 class="heading">Playlist Details</h1>
 
-      <?php
-         $select_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE id = ? and status = ? LIMIT 1");
+      <div class="row">
+
+         <?php
+         $select_playlist = $conn->prepare("
+            SELECT p.*, t.name as tutor_name, t.profession, t.image as tutor_image,
+                   (SELECT COUNT(*) FROM `content` WHERE playlist_id = p.id AND status = 'active') as total_videos
+            FROM `playlist` p
+            JOIN `tutors` t ON p.tutor_id = t.id
+            WHERE p.id = ? AND p.status = ?
+            LIMIT 1
+         ");
          $select_playlist->execute([$get_id, 'active']);
-         if($select_playlist->rowCount() > 0){
-            $fetch_playlist = $select_playlist->fetch(PDO::FETCH_ASSOC);
 
+         if ($select_playlist->rowCount() > 0) {
+            $fetch_playlist = $select_playlist->fetch(PDO::FETCH_ASSOC);
             $playlist_id = $fetch_playlist['id'];
 
-            $count_videos = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ?");
-            $count_videos->execute([$playlist_id]);
-            $total_videos = $count_videos->rowCount();
-
-            $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ? LIMIT 1");
-            $select_tutor->execute([$fetch_playlist['tutor_id']]);
-            $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
-
-            $select_bookmark = $conn->prepare("SELECT * FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
+            $select_bookmark = $conn->prepare("SELECT 1 FROM `bookmark` WHERE user_id = ? AND playlist_id = ?");
             $select_bookmark->execute([$user_id, $playlist_id]);
+            $is_bookmarked = $select_bookmark->rowCount() > 0;
+         ?>
 
-      ?>
-
-      <div class="col">
-         <form action="" method="post" class="save-list">
-            <input type="hidden" name="list_id" value="<?= $playlist_id; ?>">
-            <?php
-               if($select_bookmark->rowCount() > 0){
-            ?>
-            <button type="submit" name="save_list"><i class="fas fa-bookmark"></i><span>saved</span></button>
-            <?php
-               }else{
-            ?>
-               <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>save playlist</span></button>
-            <?php
-               }
-            ?>
-         </form>
-         <div class="thumb">
-            <span><?= $total_videos; ?> videos</span>
-            <img src="uploaded_files/<?= $fetch_playlist['thumb']; ?>" alt="">
-         </div>
-      </div>
-
-      <div class="col">
-         <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-            <div>
-               <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_tutor['profession']; ?></span>
+            <div class="col">
+               <div class="save-list">
+                  <button type="button" class="bookmark-btn" data-id="<?= $playlist_id; ?>">
+                     <i class="<?= $is_bookmarked ? 'fas' : 'far'; ?> fa-bookmark"></i>
+                     <span><?= $is_bookmarked ? 'Saved' : 'Save Playlist'; ?></span>
+                  </button>
+               </div>
+               <div class="thumb">
+                  <span class="video-count"><?= $fetch_playlist['total_videos']; ?> videos</span>
+                  <img src="uploaded_files/<?= $fetch_playlist['thumb']; ?>" alt="Playlist Thumbnail">
+               </div>
             </div>
-         </div>
-         <div class="details">
-            <h3><?= $fetch_playlist['title']; ?></h3>
-            <p><?= $fetch_playlist['description']; ?></p>
-            <div class="date"><i class="fas fa-calendar"></i><span><?= $fetch_playlist['date']; ?></span></div>
-         </div>
+
+            <div class="col">
+               <div class="tutor">
+                  <img src="uploaded_files/<?= $fetch_playlist['tutor_image']; ?>" alt="Tutor Image">
+                  <div>
+                     <h3><?= $fetch_playlist['tutor_name']; ?></h3>
+                     <span><?= $fetch_playlist['profession']; ?></span>
+                  </div>
+               </div>
+               <div class="details">
+                  <h3><?= $fetch_playlist['title']; ?></h3>
+                  <p><?= $fetch_playlist['description']; ?></p>
+                  <div class="date"><i class="fas fa-calendar"></i><span><?= $fetch_playlist['date']; ?></span></div>
+               </div>
+            </div>
+
+         <?php
+         } else {
+            echo '<p class="empty">this playlist was not found!</p>';
+         }
+         ?>
+
       </div>
 
-      <?php
-         }else{
-            echo '<p class="empty">this playlist was not found!</p>';
-         }  
-      ?>
-
-   </div>
-
-</section>
+   </section>
 
 
 
-<section class="videos-container">
+   <section class="videos-container">
 
-   <h1 class="heading">Playlist Videos</h1>
+      <h1 class="heading">Playlist Videos</h1>
 
-   <div class="box-container">
+      <div class="box-container">
 
-      <?php
-         $select_content = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ? AND status = ? ORDER BY date DESC");
-         $select_content->execute([$get_id, 'active']);
-         if($select_content->rowCount() > 0){
-            while($fetch_content = $select_content->fetch(PDO::FETCH_ASSOC)){  
-      ?>
-      <a href="watch_video.php?get_id=<?= $fetch_content['id']; ?>" class="box">
-         <i class="fas fa-play"></i>
-         <img src="uploaded_files/<?= $fetch_content['thumb']; ?>" alt="">
-         <h3><?= $fetch_content['title']; ?></h3>
-      </a>
-      <?php
+         <?php
+         if (isset($playlist_id)) {
+            $select_content = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ? AND status = ? ORDER BY date DESC");
+            $select_content->execute([$playlist_id, 'active']);
+
+            if ($select_content->rowCount() > 0) {
+               while ($fetch_content = $select_content->fetch(PDO::FETCH_ASSOC)) {
+         ?>
+                  <a href="watch_video.php?get_id=<?= $fetch_content['id']; ?>" class="box">
+                     <i class="fas fa-play"></i>
+                     <img src="uploaded_files/<?= $fetch_content['thumb']; ?>" alt="Video Thumbnail">
+                     <h3><?= $fetch_content['title']; ?></h3>
+                  </a>
+         <?php
+               }
+            } else {
+               echo '<p class="empty">no videos added yet!</p>';
             }
-         }else{
-            echo '<p class="empty">no videos added yet!</p>';
          }
-      ?>
+         ?>
 
-   </div>
+      </div>
 
-</section>
-
-
+   </section>
 
 
 
@@ -177,9 +250,69 @@ if(isset($_POST['save_list'])){
 
 
 
- 
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
-   
+
+
+
+   <!-- custom js file link  -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+   <script src="js/script.js"></script>
+
+   <script>
+      $(document).ready(function() {
+         function showNotification(message, isError = false) {
+            const notification = $('#notification');
+            notification.text(message).toggleClass('error', isError).fadeIn();
+            setTimeout(() => notification.fadeOut(), 3000);
+         }
+
+         // Handle bookmark button click
+         $(document).on('click', '.bookmark-btn', function() {
+            const button = $(this);
+            const listId = button.data('id');
+
+            // Disable button temporarily
+            button.prop('disabled', true);
+
+            $.ajax({
+               url: window.location.href,
+               type: 'POST',
+               data: {
+                  action: 'toggle_bookmark',
+                  list_id: listId
+               },
+               dataType: 'json',
+               success: function(response) {
+                  if (response.status === 'success') {
+                     // Update button appearance
+                     const icon = button.find('i');
+                     const text = button.find('span');
+
+                     if (response.bookmarked) {
+                        icon.removeClass('far').addClass('fas');
+                        text.text('Saved');
+                     } else {
+                        icon.removeClass('fas').addClass('far');
+                        text.text('Save Playlist');
+                     }
+
+                     showNotification(response.message);
+                  } else {
+                     showNotification(response.message || 'Error saving playlist', true);
+                  }
+               },
+               error: function(xhr, status, error) {
+                  console.error('AJAX Error:', error);
+                  showNotification('Error processing your request. Please try again.', true);
+               },
+               complete: function() {
+                  // Re-enable button
+                  button.prop('disabled', false);
+               }
+            });
+         });
+      });
+   </script>
+
 </body>
+
 </html>
