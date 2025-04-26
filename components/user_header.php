@@ -46,7 +46,7 @@ if(isset($message)){
          ?>
          <img src="uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
-         <span>Student</span>
+         <span style="p>Student</span>
          <div class="profile-buttons">
          <a href="profile.php" class="btn" style="position:relative;top:150px;">View profile</a>
          <a href="components/user_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn"style="position:Relative;top:150px;";>Logout</a>

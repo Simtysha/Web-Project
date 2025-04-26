@@ -1,5 +1,4 @@
 <?php
-
 include '../components/connect.php';
 
 if(isset($_COOKIE['tutor_id'])){
@@ -8,23 +7,6 @@ if(isset($_COOKIE['tutor_id'])){
    $tutor_id = '';
    header('location:login.php');
 }
-
-$select_contents = $conn->prepare("SELECT * FROM `content` WHERE tutor_id = ?");
-$select_contents->execute([$tutor_id]);
-$total_contents = $select_contents->rowCount();
-
-$select_playlists = $conn->prepare("SELECT * FROM `playlist` WHERE tutor_id = ?");
-$select_playlists->execute([$tutor_id]);
-$total_playlists = $select_playlists->rowCount();
-
-$select_likes = $conn->prepare("SELECT * FROM `likes` WHERE tutor_id = ?");
-$select_likes->execute([$tutor_id]);
-$total_likes = $select_likes->rowCount();
-
-$select_comments = $conn->prepare("SELECT * FROM `comments` WHERE tutor_id = ?");
-$select_comments->execute([$tutor_id]);
-$total_comments = $select_comments->rowCount();
-
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +27,7 @@ $total_comments = $select_comments->rowCount();
 <body>
 
 <?php include '../components/admin_header.php'; ?>
-   
+
 <section class="dashboard">
 
    <h1 class="heading">Admin Dashboard</h1>
@@ -54,55 +36,66 @@ $total_comments = $select_comments->rowCount();
 
       <div class="box">
          <h3>Welcome!</h3>
-         <p><?= $fetch_profile['name']; ?></p>
+         <p><?= isset($fetch_profile['name']) ? $fetch_profile['name'] : 'Admin'; ?></p>
          <a href="profile.php" class="btn">View profile</a>
       </div>
 
       <div class="box">
-         <h3><?= $total_contents; ?></h3>
-         <p>total contents</p>
-         <a href="add_content.php" class="btn">add new content</a>
+         <h3 id="stat-contents">Loading...</h3>
+         <p>Total contents</p>
+         <a href="add_content.php" class="btn">Add new content</a>
       </div>
 
       <div class="box">
-         <h3><?= $total_playlists; ?></h3>
+         <h3 id="stat-playlists">Loading...</h3>
          <p>Total playlists</p>
          <a href="add_playlist.php" class="btn">Add new playlist</a>
       </div>
 
       <div class="box">
-         <h3><?= $total_likes; ?></h3>
+         <h3 id="stat-likes">Loading...</h3>
          <p>Total likes</p>
          <a href="contents.php" class="btn">View contents</a>
       </div>
 
       <div class="box">
-         <h3><?= $total_comments; ?></h3>
+         <h3 id="stat-comments">Loading...</h3>
          <p>Total comments</p>
          <a href="comments.php" class="btn">View comments</a>
-      </div>
-
       </div>
 
    </div>
 
 </section>
 
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- AJAX to Fetch Dashboard Data -->
+<script>
+$(document).ready(function(){
+   $.ajax({
+      url: 'dashboard_stats.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response){
+         if(response.status === 'success'){
+            $('#stat-contents').text(response.data.contents);
+            $('#stat-playlists').text(response.data.playlists);
+            $('#stat-likes').text(response.data.likes);
+            $('#stat-comments').text(response.data.comments);
+         } else {
+            alert("Error: " + response.message);
+         }
+      },
+      error: function(xhr, status, error){
+         alert("Failed to load dashboard stats. Status: " + status);
+      }
+   });
+});
+</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- Custom JS -->
 <script src="../js/admin_script.js"></script>
 
 </body>

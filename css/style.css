@@ -383,11 +383,7 @@ font-size:12px;
    display: block;
 }
 
-/* Dark Mode Button */
-#toggle-btn {
-   cursor: pointer;
-   font-size: 2rem;
-}
+
 /* Who We Are Section */
 .who-we-are {
    text-align: left;

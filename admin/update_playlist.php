@@ -1,158 +1,281 @@
 <?php
-
 include '../components/connect.php';
 
-if(isset($_COOKIE['tutor_id'])){
-   $tutor_id = $_COOKIE['tutor_id'];
-}else{
-   $tutor_id = '';
-   header('location:login.php');
+// Redirect to login if tutor_id cookie is not set
+if (!isset($_COOKIE['tutor_id'])) {
+    header('Location: login.php');
+    exit;
 }
 
-if(isset($_GET['get_id'])){
-   $get_id = $_GET['get_id'];
-}else{
-   $get_id = '';
-   header('location:playlist.php');
+$tutor_id = $_COOKIE['tutor_id'];
+
+// JSON Schema for playlist update
+$schema = [
+    'type' => 'object',
+    'required' => ['id', 'title', 'description', 'status'],
+    'properties' => [
+        'id' => ['type' => 'string'], // String-based ID
+        'title' => ['type' => 'string', 'minLength' => 1, 'maxLength' => 100],
+        'description' => ['type' => 'string', 'minLength' => 1, 'maxLength' => 1000],
+        'status' => ['type' => 'string', 'enum' => ['active', 'deactive']]
+    ]
+];
+
+// Handle AJAX requests
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+    header('Content-Type: application/json');
+
+    // Read the raw POST data
+    $rawData = file_get_contents('php://input');
+    $data = json_decode($rawData, true);
+
+    // Validate JSON syntax
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid JSON format']);
+        exit;
+    }
+
+    // Validate JSON against schema
+    $valid = true;
+    $errorMsg = '';
+
+    // Required fields check
+    foreach ($schema['required'] as $field) {
+        if (!isset($data[$field]) || empty($data[$field])) {
+            $valid = false;
+            $errorMsg = "Missing required field: $field";
+            break;
+        }
+    }
+
+    // Property validation
+    if ($valid) {
+        // Validate id is not empty
+        if (empty($data['id'])) {
+            $valid = false;
+            $errorMsg = 'ID cannot be empty';
+        }
+        // Validate title length
+        else if (strlen($data['title']) > $schema['properties']['title']['maxLength']) {
+            $valid = false;
+            $errorMsg = 'Title exceeds maximum length';
+        }
+        // Validate description length
+        else if (strlen($data['description']) > $schema['properties']['description']['maxLength']) {
+            $valid = false;
+            $errorMsg = 'Description exceeds maximum length';
+        }
+        // Validate status
+        else if (!in_array($data['status'], $schema['properties']['status']['enum'])) {
+            $valid = false;
+            $errorMsg = 'Invalid status value';
+        }
+    }
+
+    if (!$valid) {
+        echo json_encode(['status' => 'error', 'message' => $errorMsg]);
+        exit;
+    }
+
+    // Sanitize inputs after validation - use string sanitization for the ID
+    $id = htmlspecialchars($data['id'], ENT_QUOTES, 'UTF-8');
+    $title = htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8');
+    $description = htmlspecialchars($data['description'], ENT_QUOTES, 'UTF-8');
+    $status = htmlspecialchars($data['status'], ENT_QUOTES, 'UTF-8');
+
+    try {
+        // Update playlist
+        $update_playlist = $conn->prepare("UPDATE `playlist` SET title = ?, description = ?, status = ? WHERE id = ? AND tutor_id = ?");
+        $update_playlist->execute([$title, $description, $status, $id, $tutor_id]);
+        
+        if ($update_playlist->rowCount() > 0) {
+            echo json_encode(['status' => 'success', 'message' => 'Playlist updated successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No changes made or playlist not found']);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+    }
+    
+    exit;
 }
 
-if(isset($_POST['submit'])){
+// Handle AJAX GET request to fetch playlist data
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['get_id']) && isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+    header('Content-Type: application/json');
 
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $description = $_POST['description'];
-   $description = filter_var($description, FILTER_SANITIZE_STRING);
-   $status = $_POST['status'];
-   $status = filter_var($status, FILTER_SANITIZE_STRING);
+    // Use string sanitization for ID instead of numeric filtering
+    $get_id = htmlspecialchars($_GET['get_id'], ENT_QUOTES, 'UTF-8');
+    
+    if (empty($get_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid playlist ID']);
+        exit;
+    }
 
-   $update_playlist = $conn->prepare("UPDATE `playlist` SET title = ?, description = ?, status = ? WHERE id = ?");
-   $update_playlist->execute([$title, $description, $status, $get_id]);
+    try {
+        // First try with both id and tutor_id
+        $select_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE id = ? AND tutor_id = ?");
+        $select_playlist->execute([$get_id, $tutor_id]);
 
-   $old_image = $_POST['old_image'];
-   $old_image = filter_var($old_image, FILTER_SANITIZE_STRING);
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $ext = pathinfo($image, PATHINFO_EXTENSION);
-   $rename = unique_id().'.'.$ext;
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../uploaded_files/'.$rename;
-
-   if(!empty($image)){
-      if($image_size > 2000000){
-         $message[] = 'image size is too large!';
-      }else{
-         $update_image = $conn->prepare("UPDATE `playlist` SET thumb = ? WHERE id = ?");
-         $update_image->execute([$rename, $get_id]);
-         move_uploaded_file($image_tmp_name, $image_folder);
-         if($old_image != '' AND $old_image != $rename){
-            unlink('../uploaded_files/'.$old_image);
-         }
-      }
-   } 
-
-   $message[] = 'playlist updated!';  
-
+        if ($select_playlist->rowCount() > 0) {
+            $playlist = $select_playlist->fetch(PDO::FETCH_ASSOC);
+            echo json_encode(['status' => 'success', 'data' => $playlist]);
+        } else {
+            // If not found, try with just the ID (for debugging)
+            $select_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE id = ?");
+            $select_playlist->execute([$get_id]);
+            
+            if ($select_playlist->rowCount() > 0) {
+                $playlist = $select_playlist->fetch(PDO::FETCH_ASSOC);
+                echo json_encode([
+                    'status' => 'error', 
+                    'message' => 'Playlist found but not associated with your account',
+                    'debug' => [
+                        'playlist_tutor_id' => $playlist['tutor_id'],
+                        'your_tutor_id' => $tutor_id
+                    ]
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error', 
+                    'message' => 'Playlist not found',
+                    'debug' => [
+                        'id_searched' => $get_id
+                    ]
+                ]);
+            }
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+    }
+    
+    exit;
 }
 
-if(isset($_POST['delete'])){
-   $delete_id = $_POST['playlist_id'];
-   $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
-   $delete_playlist_thumb = $conn->prepare("SELECT * FROM `playlist` WHERE id = ? LIMIT 1");
-   $delete_playlist_thumb->execute([$delete_id]);
-   $fetch_thumb = $delete_playlist_thumb->fetch(PDO::FETCH_ASSOC);
-   unlink('../uploaded_files/'.$fetch_thumb['thumb']);
-   $delete_bookmark = $conn->prepare("DELETE FROM `bookmark` WHERE playlist_id = ?");
-   $delete_bookmark->execute([$delete_id]);
-   $delete_playlist = $conn->prepare("DELETE FROM `playlist` WHERE id = ?");
-   $delete_playlist->execute([$delete_id]);
-   header('location:playlists.php');
-}
-
+// For non-AJAX requests, display the HTML page
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Update Playlist</title>
-
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/admin_style.css">
-
+    <meta charset="UTF-8">
+    <title>Update Playlist</title>
+    <link rel="stylesheet" href="../css/admin_style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+    <?php include '../components/admin_header.php'; ?>
 
-<?php include '../components/admin_header.php'; ?>
-   
-<section class="playlist-form">
+    <section class="playlist-form">
+        <h1 class="heading">Update Playlist</h1>
+        <form id="playlistForm">
+            <input type="hidden" name="id" id="playlist_id">
+            <p>Playlist Status <span>*</span></p>
+            <select name="status" id="status" class="box" required>
+                <option value="active">Active</option>
+                <option value="deactive">Deactive</option>
+            </select>
+            <p>Playlist Title <span>*</span></p>
+            <input type="text" name="title" id="title" maxlength="100" required placeholder="Enter playlist title" class="box">
+            <p>Playlist Description <span>*</span></p>
+            <textarea name="description" id="description" class="box" required placeholder="Write description" maxlength="1000" cols="30" rows="10"></textarea>
+            <input type="submit" value="Update Playlist" class="btn">
+            <div id="response-message"></div>
+        </form>
+    </section>
 
-   <h1 class="heading">Update playlist</h1>
+    <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const getId = urlParams.get('get_id');
 
-   <?php
-         $select_playlist = $conn->prepare("SELECT * FROM `playlist` WHERE id = ?");
-         $select_playlist->execute([$get_id]);
-         if($select_playlist->rowCount() > 0){
-         while($fetch_playlist = $select_playlist->fetch(PDO::FETCH_ASSOC)){
-            $playlist_id = $fetch_playlist['id'];
-            $count_videos = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ?");
-            $count_videos->execute([$playlist_id]);
-            $total_videos = $count_videos->rowCount();
-      ?>
-   <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="old_image" value="<?= $fetch_playlist['thumb']; ?>">
-      <p>Playlist status <span>*</span></p>
-      <select name="status" class="box" required>
-         <option value="<?= $fetch_playlist['status']; ?>" selected><?= $fetch_playlist['status']; ?></option>
-         <option value="active">Active</option>
-         <option value="deactive">Deactive</option>
-      </select>
-      <p>Playlist title <span>*</span></p>
-      <input type="text" name="title" maxlength="100" required placeholder="enter playlist title" value="<?= $fetch_playlist['title']; ?>" class="box">
-      <p>Playlist description <span>*</span></p>
-      <textarea name="description" class="box" required placeholder="write description" maxlength="1000" cols="30" rows="10"><?= $fetch_playlist['description']; ?></textarea>
-      <p>Playlist thumbnail <span>*</span></p>
-      <div class="thumb">
-         <span><?= $total_videos; ?></span>
-         <img src="../uploaded_files/<?= $fetch_playlist['thumb']; ?>" alt="">
-      </div>
-      <input type="file" name="image" accept="image/*" class="box">
-      <input type="submit" value="update playlist" name="submit" class="btn">
-      <div class="flex-btn">
-         <input type="submit" value="delete" class="delete-btn" onclick="return confirm('delete this playlist?');" name="delete">
-         <a href="view_playlist.php?get_id=<?= $playlist_id; ?>" class="option-btn">View playlist</a>
-      </div>
-   </form>
-   <?php
-      } 
-   }else{
-      echo '<p class="empty">No playlist added yet!</p>';
-   }
-   ?>
+            if (!getId) {
+                window.location.href = 'playlists.php';
+                return;
+            }
 
-</section>
+            // Debug info
+            console.log('Fetching playlist with ID:', getId);
 
+            // AJAX Load Existing Data
+            $.ajax({
+                url: 'update_playlist.php',
+                method: 'GET',
+                dataType: 'json',
+                data: { get_id: getId },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(response) {
+                    console.log('Response received:', response);
+                    if (response.status === 'success') {
+                        $('#playlist_id').val(response.data.id);
+                        $('#status').val(response.data.status);
+                        $('#title').val(response.data.title);
+                        $('#description').val(response.data.description);
+                    } else {
+                        console.error('Error:', response.message);
+                        alert(response.message);
+                        if (response.debug) {
+                            console.log('Debug info:', response.debug);
+                        }
+                        window.location.href = 'playlists.php';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                    console.log('Status:', status);
+                    console.log('Response:', xhr.responseText);
+                    alert('Failed to load playlist data. Status: ' + status);
+                    window.location.href = 'playlists.php';
+                }
+            });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="../js/admin_script.js"></script>
-
+            // AJAX Submit Form
+            $('#playlistForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const playlistData = {
+                    id: $('#playlist_id').val(),
+                    status: $('#status').val(),
+                    title: $('#title').val(),
+                    description: $('#description').val()
+                };
+                
+                console.log('Submitting data:', playlistData);
+                
+                // Client-side validation before sending
+                if (!playlistData.id || !playlistData.title || !playlistData.description || !playlistData.status) {
+                    $('#response-message').html('<div class="error">All fields are required</div>');
+                    return;
+                }
+                
+                $.ajax({
+                    url: 'update_playlist.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(playlistData),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        console.log('Submit response:', response);
+                        if (response.status === 'success') {
+                            alert(response.message);
+                            window.location.href = 'playlists.php';
+                        } else {
+                            $('#response-message').html('<div class="error">' + response.message + '</div>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Submit error:', error);
+                        console.log('Submit status:', status);
+                        console.log('Submit response:', xhr.responseText);
+                        $('#response-message').html('<div class="error">Failed to update playlist. Status: ' + status + '</div>');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
