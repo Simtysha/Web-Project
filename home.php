@@ -34,6 +34,30 @@ $total_bookmarked = $select_bookmark->rowCount();
 
    <link rel="stylesheet" href="css/style.css">
 
+   <style>
+   .course-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+   }
+
+   .lessons {
+      background: var(--main-color);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 1.4rem;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+   }
+
+   .box .inline-btn {
+      margin: 0;
+   }
+   </style>
+
 </head>
 <body>
 
@@ -112,6 +136,11 @@ $total_bookmarked = $select_bookmark->rowCount();
                $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
+
+               // Get content count for this course
+               $select_content = $conn->prepare("SELECT COUNT(*) as content_count FROM `content` WHERE playlist_id = ? AND status = ?");
+               $select_content->execute([$course_id, 'active']);
+               $content_count = $select_content->fetch(PDO::FETCH_ASSOC)['content_count'];
       ?>
       <div class="box">
          <div class="tutor">
@@ -123,7 +152,17 @@ $total_bookmarked = $select_bookmark->rowCount();
          </div>
          <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
          <h3 class="title"><?= $fetch_course['title']; ?></h3>
-         <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+         <div class="course-footer">
+            <?php if(!empty($user_id)): ?>
+               <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+            <?php else: ?>
+               <a href="javascript:void(0);" class="inline-btn view-playlist-btn" data-id="<?= $course_id; ?>">view playlist</a>
+            <?php endif; ?>
+            
+            <?php if($content_count > 0): ?>
+            <span class="lessons"><?= $content_count; ?> Videos</span>
+            <?php endif; ?>
+         </div>
       </div>
       <?php
          }
