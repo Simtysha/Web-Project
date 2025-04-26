@@ -385,11 +385,6 @@ section {
    display: block;
 }
 
-/* Dark Mode Button */
-#toggle-btn {
-   cursor: pointer;
-   font-size: 2rem;
-}
 /* Who We Are Section */
 .who-we-are {
    text-align: left;
@@ -691,9 +686,8 @@ section {
    font-size: 1.8rem;
    text-decoration: none;
    transition: background-color 0.3s ease;
-   position: relative;
-   top:5px;
-   left:80px;
+  
+
 }
 
 .courses .box-container .box .inline-btn:hover {
@@ -857,6 +851,7 @@ section {
    background-color:   #dfbbf2; 
    color:black;
 }
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
