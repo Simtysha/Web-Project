@@ -25,6 +25,33 @@ if (isset($_COOKIE['user_id'])) {
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
+   <script>
+   $(document).ready(function() {
+      let currentSlide = 0;
+      const slides = $('.carousel-slide');
+      const totalSlides = slides.length;
+
+      // Hide all slides except first one
+      slides.hide();
+      slides.first().show();
+
+      function showSlide(index) {
+         slides.fadeOut(500);
+         slides.eq(index).fadeIn(500);
+      }
+
+      function nextSlide() {
+         currentSlide = (currentSlide + 1) % totalSlides;
+         showSlide(currentSlide);
+      }
+
+      // Auto advance slides every 3 seconds
+      setInterval(nextSlide, 3000);
+   });
+   </script>
+
 </head>
 
 <body>
@@ -61,129 +88,95 @@ if (isset($_COOKIE['user_id'])) {
       </div>
 
 
-      <div class="box-container">
+      <div class="box-container" id="statistics-container">
          <h1 class="heading">Statistics</h1>
-
-         <div class="box">
-            <i class="fas fa-graduation-cap"></i>
-            <div>
-               <h3>+1k</h3>
-               <span>online courses</span>
-            </div>
-         </div>
-
-         <div class="box">
-            <i class="fas fa-user-graduate"></i>
-            <div>
-               <h3>+25k</h3>
-               <span>brilliant students</span>
-            </div>
-         </div>
-
-         <div class="box">
-            <i class="fas fa-chalkboard-user"></i>
-            <div>
-               <h3>+5k</h3>
-               <span>expert teachers</span>
-            </div>
-         </div>
-
-         <div class="box">
-            <i class="fas fa-briefcase"></i>
-            <div>
-               <h3>100%</h3>
-               <span>job placement</span>
-            </div>
-         </div>
       </div>
    </section>
    <!-- about section ends -->
 
-   <!-- reviews section starts  -->
-
    <section class="reviews">
-
       <h1 class="heading">student's reviews</h1>
-
-      <div class="box-container">
-
-         <div class="box">
-            <p>Virtu-Learn offers a seamless online tutoring experience with flexible scheduling, expert tutors, and a user-friendly platform. Perfect for students and professionals alike!</p>
-            <div class="user">
-               <img src="images/ReviewProfile1.jpg" alt="">
-               <div>
-                  <h3>Aria Thompson</h3>
-                  <div class="stars">
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star-half-alt"></i>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         <div class="box">
-            <p>The structured courses and interactive features on Virtu-Learn make learning engaging and effective. Highly recommend for anyone looking to upskill conveniently!</p>
-            <div class="user">
-               <img src="images/ReviewProfile2.jpg" alt="">
-               <div>
-                  <h3>Noah Sullivan</h3>
-                  <div class="stars">
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star-half-alt"></i>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         <div class="box">
-            <p>A highly engaging and well-designed platform! Virtu-Learn’s personalized learning approach ensures students grasp concepts effectively while enjoying the learning process.</p>
-            <div class="user">
-               <img src="images/ReviewProfile3.jpg" alt="">
-               <div>
-                  <h3>Caleb Anderson</h3>
-                  <div class="stars">
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star-half-alt"></i>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         <div class="box">
-            <p>Virtu-Learn provides top-notch education with knowledgeable tutors, easy navigation, and great flexibility. Learning at your own pace has never been this effortless!</p>
-            <div class="user">
-               <img src="images/ReviewProfile4.jpg" alt="">
-               <div>
-                  <h3>Elena Reynolds</h3>
-                  <div class="stars">
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star"></i>
-                     <i class="fas fa-star-half-alt"></i>
-                  </div>
-               </div>
-            </div>
-         </div>
-
+      <div class="box-container" id="reviews-container">
+         <!-- Reviews will be loaded here -->
       </div>
-
    </section>
 
-   <!-- reviews section ends -->
+   <script>
+   $(document).ready(function() {
+      // Load statistics
+      $.ajax({
+         url: 'ajax/statistics_handler.php',
+         type: 'GET',
+         dataType: 'json',
+         success: function(response) {
+            if(response.status === 'success') {
+               const stats = response.data;
+               const container = $('#statistics-container');
+               
+               Object.values(stats).forEach(stat => {
+                  const box = `
+                     <div class="box">
+                        <i class="${stat.icon}"></i>
+                        <div>
+                           <h3>${stat.count}</h3>
+                           <span>${stat.text}</span>
+                        </div>
+                     </div>
+                  `;
+                  container.append(box);
+               });
+            }
+         },
+         error: function() {
+            console.error('Error loading statistics');
+         }
+      });
 
-   <!-- custom js file link  -->
-   <script src="js/script.js"></script>
+      // Load reviews
+      $.ajax({
+         url: 'ajax/reviews_handler.php',
+         type: 'GET',
+         dataType: 'json',
+         success: function(response) {
+            if(response.status === 'success') {
+               const reviews = response.data;
+               const container = $('#reviews-container');
+               
+               reviews.forEach(review => {
+                  const starsHtml = Array(5).fill().map((_, index) => {
+                     if (index < Math.floor(review.rating)) {
+                        return '<i class="fas fa-star"></i>';
+                     } else if (index === Math.floor(review.rating) && review.rating % 1 !== 0) {
+                        return '<i class="fas fa-star-half-alt"></i>';
+                     } else {
+                        return '<i class="far fa-star"></i>';
+                     }
+                  }).join('');
+
+                  const box = `
+                     <div class="box">
+                        <p>${review.text}</p>
+                        <div class="user">
+                           <img src="images/${review.image}" alt="">
+                           <div>
+                              <h3>${review.name}</h3>
+                              <div class="stars">
+                                 ${starsHtml}
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  `;
+                  container.append(box);
+               });
+            }
+         },
+         error: function() {
+            console.error('Error loading reviews');
+         }
+      });
+   });
+   </script>
 
 </body>
-
 </html>
