@@ -1,5 +1,4 @@
 <?php
-
 include 'components/connect.php';
 
 if(isset($_COOKIE['user_id'])){
@@ -8,8 +7,8 @@ if(isset($_COOKIE['user_id'])){
    $user_id = '';
 }
 
+// We'll keep the existing PHP processing for non-JS users (as fallback)
 if(isset($_POST['submit'])){
-
    $name = $_POST['name']; 
    $name = filter_var($name, FILTER_SANITIZE_STRING);
    $email = $_POST['email']; 
@@ -29,9 +28,7 @@ if(isset($_POST['submit'])){
       $insert_message->execute([$name, $email, $number, $msg]);
       $message[] = 'message sent successfully!';
    }
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +44,53 @@ if(isset($_POST['submit'])){
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-
+   
+   <style>
+     /* Styles for form feedback */
+     .alert {
+       padding: 15px;
+       margin-bottom: 20px;
+       border-radius: 5px;
+     }
+     .alert-success {
+       background-color: #d4edda;
+       color: #155724;
+       border: 1px solid #c3e6cb;
+     }
+     .alert-danger {
+       background-color: #f8d7da;
+       color: #721c24;
+       border: 1px solid #f5c6cb;
+     }
+     .alert-warning {
+       background-color: #fff3cd;
+       color: #856404;
+       border: 1px solid #ffeeba;
+     }
+     .form-error {
+       color: #721c24;
+       font-size: 0.9rem;
+       margin-top: 5px;
+       display: none;
+     }
+     .form-loading {
+       display: none;
+       text-align: center;
+       margin: 10px 0;
+     }
+     .spinner {
+       display: inline-block;
+       width: 30px;
+       height: 30px;
+       border: 3px solid rgba(0,0,0,0.1);
+       border-radius: 50%;
+       border-top-color: #3498db;
+       animation: spin 1s ease-in-out infinite;
+     }
+     @keyframes spin {
+       to { transform: rotate(360deg); }
+     }
+   </style>
 </head>
 <body>
 
@@ -63,13 +106,38 @@ if(isset($_POST['submit'])){
          <img src="images/contact.png" alt="">
       </div>
 
-      <form action="" method="post">
+      <form id="contactForm" action="" method="post">
          <h3>Get in Touch</h3>
-         <input type="text" placeholder="Enter Name" required maxlength="100" name="name" class="box">
-         <input type="email" placeholder="Enter Email" required maxlength="100" name="email" class="box">
-         <input type="number" min="0" max="9999999999" placeholder="Enter Number" required maxlength="10" name="number" class="box">
-         <textarea name="msg" class="box" placeholder="Enter Message" required cols="30" rows="10" maxlength="1000"></textarea>
-         <input type="submit" value="Send Message" class="inline-btn" name="submit">
+         
+         <!-- Response feedback container -->
+         <div id="formResponse" style="display: none;"></div>
+         
+         <div class="form-group">
+           <input type="text" placeholder="Enter Name" required maxlength="50" name="name" id="name" class="box">
+           <div class="form-error" id="nameError"></div>
+         </div>
+         
+         <div class="form-group">
+           <input type="email" placeholder="Enter Email" required maxlength="50" name="email" id="email" class="box">
+           <div class="form-error" id="emailError"></div>
+         </div>
+         
+         <div class="form-group">
+           <input type="number" min="0" max="99999999" placeholder="Enter Number" required maxlength="8" name="number" id="number" class="box">
+           <div class="form-error" id="numberError"></div>
+         </div>
+         
+         <div class="form-group">
+           <textarea name="msg" id="msg" class="box" placeholder="Enter Message" required cols="30" rows="10" maxlength="1000"></textarea>
+           <div class="form-error" id="msgError"></div>
+         </div>
+         
+         <div class="form-loading" id="formLoading">
+           <div class="spinner"></div>
+           <p>Sending your message...</p>
+         </div>
+         
+         <input type="submit" value="Send Message" class="inline-btn" name="submit" id="submitBtn">
       </form>
 
    </div>
@@ -96,14 +164,178 @@ if(isset($_POST['submit'])){
          <a href="#">Reduit, Mauritius</a>
       </div>
 
-
    </div>
 
 </section>
 
 <!-- contact section ends -->
 
-
+<!-- AJAX script for form submission -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const formResponse = document.getElementById('formResponse');
+    const formLoading = document.getElementById('formLoading');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Error elements
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const numberError = document.getElementById('numberError');
+    const msgError = document.getElementById('msgError');
+    
+    // Client-side validation functions
+    function validateName(name) {
+        return name.trim().length > 0 && name.trim().length <= 50;
+    }
+    
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    function validatePhone(phone) {
+        const re = /^\d{8}$/;
+        return re.test(phone);
+    }
+    
+    function validateMessage(msg) {
+        return msg.trim().length > 0 && msg.trim().length <= 1000;
+    }
+    
+    // Reset error states
+    function resetErrors() {
+        nameError.style.display = 'none';
+        emailError.style.display = 'none';
+        numberError.style.display = 'none';
+        msgError.style.display = 'none';
+        formResponse.style.display = 'none';
+    }
+    
+    // Handle form submission
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset previous error messages
+        resetErrors();
+        
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const number = document.getElementById('number').value;
+        const msg = document.getElementById('msg').value;
+        
+        // Validate form data client-side
+        let isValid = true;
+        
+        if (!validateName(name)) {
+            nameError.textContent = 'Please enter a valid name (up to 50 characters)';
+            nameError.style.display = 'block';
+            isValid = false;
+        }
+        
+        if (!validateEmail(email)) {
+            emailError.textContent = 'Please enter a valid email address';
+            emailError.style.display = 'block';
+            isValid = false;
+        }
+        
+        if (!validatePhone(number)) {
+            numberError.textContent = 'Please enter a valid phone number (8 digits)';
+            numberError.style.display = 'block';
+            isValid = false;
+        }
+        
+        if (!validateMessage(msg)) {
+            msgError.textContent = 'Please enter a message (up to 1000 characters)';
+            msgError.style.display = 'block';
+            isValid = false;
+        }
+        
+        // If validation passes, submit form via AJAX
+        if (isValid) {
+            // Show loading indicator
+            formLoading.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            // Create form data object
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('number', number);
+            formData.append('msg', msg);
+            
+            // Create and send XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'api/send_message.php', true);
+            
+            xhr.onload = function() {
+                // Hide loading indicator
+                formLoading.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                if (xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        // Display appropriate message based on response
+                        formResponse.style.display = 'block';
+                        
+                        if (response.status === 'success') {
+                            formResponse.className = 'alert alert-success';
+                            formResponse.innerHTML = '<p>' + response.message + '</p>';
+                            // Reset form on success
+                            contactForm.reset();
+                        } else if (response.status === 'warning') {
+                            formResponse.className = 'alert alert-warning';
+                            formResponse.innerHTML = '<p>' + response.message + '</p>';
+                        } else if (response.status === 'error') {
+                            formResponse.className = 'alert alert-danger';
+                            
+                            if (response.errors) {
+                                const errorList = document.createElement('ul');
+                                response.errors.forEach(function(error) {
+                                    const li = document.createElement('li');
+                                    li.textContent = error;
+                                    errorList.appendChild(li);
+                                });
+                                formResponse.innerHTML = errorList.outerHTML;
+                            } else {
+                                formResponse.innerHTML = '<p>' + response.message + '</p>';
+                            }
+                        }
+                    } catch (e) {
+                        // Handle JSON parsing error
+                        formResponse.className = 'alert alert-danger';
+                        formResponse.innerHTML = '<p>An unexpected error occurred. Please try again later.</p>';
+                        formResponse.style.display = 'block';
+                    }
+                } else {
+                    // Handle HTTP error
+                    formResponse.className = 'alert alert-danger';
+                    formResponse.innerHTML = '<p>Server error: ' + xhr.status + '. Please try again later.</p>';
+                    formResponse.style.display = 'block';
+                }
+                
+                // Scroll to response message
+                formResponse.scrollIntoView({ behavior: 'smooth' });
+            };
+            
+            xhr.onerror = function() {
+                // Handle network error
+                formLoading.style.display = 'none';
+                submitBtn.disabled = false;
+                formResponse.className = 'alert alert-danger';
+                formResponse.innerHTML = '<p>Network error. Please check your internet connection and try again.</p>';
+                formResponse.style.display = 'block';
+            };
+            
+            // Send the request
+            xhr.send(formData);
+        }
+    });
+});
+</script>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
