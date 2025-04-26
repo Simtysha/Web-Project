@@ -34,10 +34,139 @@ $total_bookmarked = $select_bookmark->rowCount();
 
    <link rel="stylesheet" href="css/style.css">
 
+   <style>
+   .course-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+   }
+
+   .lessons {
+      background: var(--main-color);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 1.4rem;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+   }
+
+   .box .inline-btn {
+      margin: 0;
+   }
+
+      /* Modal styles */
+      .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      overflow: auto;
+   }
+
+   .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: modalFadeIn 0.3s;
+   }
+
+   @keyframes modalFadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+   }
+
+   .modal-header {
+      padding: 15px 20px;
+      background-color: rgb(41, 3, 64);
+      color: white;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .modal-header h3 {
+      margin: 0;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+   }
+
+   .modal-header h3 i {
+      margin-right: 10px;
+   }
+
+   .close-modal {
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+   }
+
+   .modal-body {
+      padding: 20px;
+      text-align: center;
+   }
+
+   .modal-body p {
+      margin-bottom: 20px;
+      font-size: 16px;
+   }
+
+   .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+   }
+
+   .modal-buttons .btn {
+      padding: 10px 20px;
+      background-color: rgb(41, 3, 64);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+   }
+
+   .modal-buttons .btn:hover {
+      background-color: #dfbbf2;
+   }
+   </style>
+
 </head>
 <body>
 
 <?php include 'components/user_header.php'; ?>
+
+<!-- Login notification modal (initially hidden) -->
+<div id="login-modal" class="modal">
+   <div class="modal-content">
+      <div class="modal-header">
+         <h3><i class="fas fa-exclamation-circle"></i> Login Required</h3>
+         <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+         <p>Log in to view playlists</p>
+         <div class="modal-buttons">
+            <a href="login.php" class="btn">Login</a>
+            <a href="register.php" class="btn">Register</a>
+         </div>
+      </div>
+   </div>
+</div>
+
 
 <section class="who-we-are">
       <h1 class="heading">Who Are We</h1>
@@ -112,6 +241,11 @@ $total_bookmarked = $select_bookmark->rowCount();
                $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
+
+               // Get content count for this course
+               $select_content = $conn->prepare("SELECT COUNT(*) as content_count FROM `content` WHERE playlist_id = ? AND status = ?");
+               $select_content->execute([$course_id, 'active']);
+               $content_count = $select_content->fetch(PDO::FETCH_ASSOC)['content_count'];
       ?>
       <div class="box">
          <div class="tutor">
@@ -123,7 +257,17 @@ $total_bookmarked = $select_bookmark->rowCount();
          </div>
          <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
          <h3 class="title"><?= $fetch_course['title']; ?></h3>
-         <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+         <div class="course-footer">
+            <?php if(!empty($user_id)): ?>
+               <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+            <?php else: ?>
+               <a href="javascript:void(0);" class="inline-btn view-playlist-btn" data-id="<?= $course_id; ?>">view playlist</a>
+            <?php endif; ?>
+            
+            <?php if($content_count > 0): ?>
+            <span class="lessons"><?= $content_count; ?> Videos</span>
+            <?php endif; ?>
+         </div>
       </div>
       <?php
          }
@@ -146,6 +290,43 @@ $total_bookmarked = $select_bookmark->rowCount();
 
 
 <script src="js/script.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+   // Get the modal
+   const modal = document.getElementById('login-modal');
+   
+   // Get the close button
+   const closeBtn = document.querySelector('.close-modal');
+   
+   // Get all view playlist buttons
+   const viewPlaylistBtns = document.querySelectorAll('.view-playlist-btn');
+   
+   // Add click event to all view playlist buttons
+   viewPlaylistBtns.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+         e.preventDefault();
+         
+         // Show the login modal
+         modal.style.display = 'block';
+      });
+   });
+   
+   // Close the modal when clicking the close button
+   if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+         modal.style.display = 'none';
+      });
+   }
+   
+   // Close the modal when clicking outside of it
+   window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+         modal.style.display = 'none';
+      }
+   });
+});
+</script>
    
 </body>
 </html>

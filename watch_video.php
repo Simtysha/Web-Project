@@ -140,10 +140,56 @@ if(isset($_POST['update_now'])){
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
+   <style>
+   .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      background-color: #4CAF50;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      display: none;
+      font-size: 1.6rem;
+      transform: translateY(100%);
+      animation: slideUp 0.3s forwards;
+   }
+
+   @keyframes slideUp {
+      to {
+         transform: translateY(0);
+      }
+   }
+
+   .notification.error {
+      background-color: #f44336;
+   }
+
+   .like-btn.active i.fas.fa-heart {
+      color: red;
+   }
+
+   .like-btn.active {
+      background-color: #f0f0f0;
+   }
+
+   .like-btn i.fas.fa-heart {
+      transition: color 0.3s ease;
+   }
+   </style>
+
+   <!-- jQuery CDN -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 
 <?php include 'components/user_header.php'; ?>
+
+<!-- Notification area -->
+<div id="notification" class="notification"></div>
 
 <?php
    if(isset($_POST['edit_comment'])){
@@ -214,14 +260,14 @@ if(isset($_POST['update_now'])){
     <?php
         if($verify_likes->rowCount() > 0){
     ?>
-    <button type="submit" name="like_content" class="like-btn liked">
+    <button type="submit" name="like_content" class="like-btn active" data-content-id="<?= $content_id; ?>">
         <i class="fas fa-heart"></i><span>Liked</span>
     </button>
     <?php
     }else{
     ?>
-    <button type="submit" name="like_content" class="like-btn">
-        <i class="far fa-heart"></i><span>Liked</span>
+    <button type="submit" name="like_content" class="like-btn" data-content-id="<?= $content_id; ?>">
+        <i class="far fa-heart"></i><span>Like</span>
     </button>
     <?php
         }
@@ -246,7 +292,7 @@ if(isset($_POST['update_now'])){
 
    <h1 class="heading">Add a comment</h1>
 
-   <form action="" method="post" class="add-comment">
+   <form action="" method="post" id="comment-form" class="add-comment">
       <input type="hidden" name="content_id" value="<?= $get_id; ?>">
       <textarea name="comment_box" required placeholder="write your comment..." maxlength="1000" cols="30" rows="10"></textarea>
       <input type="submit" value="add comment" name="add_comment" class="inline-btn">
@@ -255,7 +301,7 @@ if(isset($_POST['update_now'])){
    <h1 class="heading">User Comments</h1>
 
    
-   <div class="show-comments">
+   <div class="show-comments comments-container">
       <?php
          $select_comments = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ?");
          $select_comments->execute([$get_id]);
@@ -265,7 +311,7 @@ if(isset($_POST['update_now'])){
                $select_commentor->execute([$fetch_comment['user_id']]);
                $fetch_commentor = $select_commentor->fetch(PDO::FETCH_ASSOC);
       ?>
-      <div class="box" style="<?php if($fetch_comment['user_id'] == $user_id){echo 'order:-1;';} ?>">
+      <div class="box" id="comment-<?= $fetch_comment['id']; ?>">
          <div class="user">
             <img src="uploaded_files/<?= $fetch_commentor['image']; ?>" alt="">
             <div>
@@ -279,8 +325,8 @@ if(isset($_POST['update_now'])){
          ?>
          <form action="" method="post" class="flex-btn">
             <input type="hidden" name="comment_id" value="<?= $fetch_comment['id']; ?>">
-            <button type="submit" name="edit_comment" class="inline-option-btn">Edit comment</button>
-            <button type="submit" name="delete_comment" class="inline-delete-btn" onclick="return confirm('Delete this comment?');">Delete comment</button>
+            <button type="submit" name="edit_comment" class="inline-option-btn edit-comment-btn" data-comment-id="<?= $fetch_comment['id']; ?>">Edit comment</button>
+            <button type="submit" name="delete_comment" class="inline-delete-btn delete-comment" data-comment-id="<?= $fetch_comment['id']; ?>" onclick="return confirm('Delete this comment?');">Delete comment</button>
          </form>
          <?php
          }
@@ -289,14 +335,174 @@ if(isset($_POST['update_now'])){
       <?php
        }
       }else{
-         echo '<p class="empty">no comments added yet!</p>';
-      }
+      ?>
+      <p class="empty no-comments-message">No comments added yet!</p>
+      <?php
+         }
       ?>
       </div>
    
 </section>
 
-<script src="js/script.js"></script>
+<script>
+$(document).ready(function() {
+    // Function to show notification
+    function showNotification(message) {
+        $('#notification').text(message).fadeIn();
+        setTimeout(function() {
+            $('#notification').fadeOut();
+        }, 3000);
+    }
+
+    // Like functionality with AJAX
+    $('.like-btn').on('click', function(e) {
+        e.preventDefault();
+        const contentId = $(this).data('content-id');
+        const $button = $(this);
+        const $icon = $button.find('i');
+        const $text = $button.find('span');
+        
+        $.ajax({
+            url: 'ajax/like_handler.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                content_id: contentId,
+                action: 'like_content'
+            },
+            success: function(response) {
+                if(response.status === 'success') {
+                    const likesCount = response.likes_count;
+                    $('.likes-count[data-content-id="' + contentId + '"]').text(likesCount);
+                    $button.toggleClass('active');
+                    
+                    if($button.hasClass('active')) {
+                        $icon.removeClass('far').addClass('fas');
+                        $text.text('Liked');
+                    } else {
+                        $icon.removeClass('fas').addClass('far');
+                        $text.text('Like');
+                    }
+                }
+                showNotification(response.message);
+            },
+            error: function() {
+                showNotification('Something went wrong!');
+            }
+        });
+    });
+
+    // Comment submission with AJAX
+    $('#comment-form').on('submit', function(e) {
+        e.preventDefault();
+        const commentData = {
+            content_id: $(this).find('[name="content_id"]').val(),
+            comment: $(this).find('[name="comment_box"]').val()
+        };
+
+        $.ajax({
+            url: 'ajax/comment_handler.php',
+            type: 'POST',
+            dataType: 'json',
+            data: commentData,
+            success: function(response) {
+                if(response.status === 'success') {
+                    // Remove "no comments" message if it exists
+                    $('.no-comments-message').remove();
+                    // Append new comment to the list
+                    const newComment = response.comment_html;
+                    $('.comments-container').prepend(newComment);
+                    $('#comment-form')[0].reset();
+                }
+                showNotification(response.message);
+            },
+            error: function() {
+                showNotification('Error submitting comment');
+            }
+        });
+    });
+
+    // Delete comment with AJAX
+    $(document).on('click', '.delete-comment', function(e) {
+        e.preventDefault();
+        const commentId = $(this).data('comment-id');
+        
+        if(confirm('Delete this comment?')) {
+            $.ajax({
+                url: 'ajax/comment_handler.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    comment_id: commentId,
+                    action: 'delete_comment'
+                },
+                success: function(response) {
+                    if(response.status === 'success') {
+                        $(`#comment-${commentId}`).remove();
+                    }
+                    showNotification(response.message);
+                },
+                error: function() {
+                    showNotification('Error deleting comment');
+                }
+            });
+        }
+    });
+
+    // Edit comment with AJAX
+    $(document).on('click', '.edit-comment-btn', function(e) {
+        e.preventDefault();
+        const commentId = $(this).data('comment-id');
+        const currentComment = $(this).closest('.comment-box').find('.comment-text').text();
+        
+        const editForm = `
+            <form class="edit-comment-form">
+                <textarea class="edit-comment-box">${currentComment}</textarea>
+                <button type="submit" class="btn">Update</button>
+                <button type="button" class="btn cancel-edit">Cancel</button>
+            </form>
+        `;
+        
+        $(this).closest('.comment-box').find('.comment-text').hide().after(editForm);
+    });
+
+    // Handle edit comment submission
+    $(document).on('submit', '.edit-comment-form', function(e) {
+        e.preventDefault();
+        const commentBox = $(this).closest('.comment-box');
+        const commentId = commentBox.find('.edit-comment-btn').data('comment-id');
+        const updatedComment = $(this).find('.edit-comment-box').val();
+        
+        $.ajax({
+            url: 'ajax/comment_handler.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                comment_id: commentId,
+                comment: updatedComment,
+                action: 'update_comment'
+            },
+            success: function(response) {
+                if(response.status === 'success') {
+                    commentBox.find('.comment-text').text(updatedComment).show();
+                    commentBox.find('.edit-comment-form').remove();
+                }
+                showNotification(response.message);
+            },
+            error: function() {
+                showNotification('Error updating comment');
+            }
+        });
+    });
+
+    // Cancel comment edit
+    $(document).on('click', '.cancel-edit', function() {
+        const commentBox = $(this).closest('.comment-box');
+        commentBox.find('.comment-text').show();
+        commentBox.find('.edit-comment-form').remove();
+    });
+});
+</script>
    
 </body>
 </html>
