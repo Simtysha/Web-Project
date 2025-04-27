@@ -45,49 +45,7 @@ if (isset($_POST['ajax_remove'])) {
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-
-   <style>
-      .removed {
-         background-color: #ccc !important;
-         cursor: default !important;
-      }
-
-      .hidden {
-         display: none;
-      }
-
-      .empty-container {
-         text-align: center;
-         padding: 2rem;
-         font-size: 1.2rem;
-      }
-
-      .notification {
-         position: fixed;
-         bottom: 20px;
-         right: 20px;
-         padding: 15px 25px;
-         border-radius: 8px;
-         background-color: #4CAF50;
-         color: white;
-         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-         z-index: 1000;
-         display: none;
-         font-size: 1.6rem;
-         transform: translateY(100%);
-         animation: slideUp 0.3s forwards;
-      }
-
-      @keyframes slideUp {
-         to {
-            transform: translateY(0);
-         }
-      }
-
-      .notification.error {
-         background-color: #f44336;
-      }
-   </style>
+   <link rel="stylesheet" href="css/likes.css">
 </head>
 
 <body>

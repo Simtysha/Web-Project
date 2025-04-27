@@ -1,0 +1,161 @@
+/* Styles moved from likes.php */
+.removed {
+   background-color: #ccc !important;
+   cursor: default !important;
+}
+
+.hidden {
+   display: none;
+}
+
+.empty-container {
+   text-align: center;
+   padding: 2rem;
+   font-size: 1.2rem;
+}
+
+.notification {
+   position: fixed;
+   bottom: 20px;
+   right: 20px;
+   padding: 15px 25px;
+   border-radius: 8px;
+   background-color: #4CAF50;
+   color: white;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+   z-index: 1000;
+   display: none;
+   font-size: 1.6rem;
+   transform: translateY(100%);
+   animation: slideUp 0.3s forwards;
+}
+
+@keyframes slideUp {
+   to {
+      transform: translateY(0);
+   }
+}
+
+.notification.error {
+   background-color: #f44336;
+}
+
+.liked-videos {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.liked-videos .heading {
+  color: #3d1857;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: left;
+  margin-left: 15%;
+  margin-top: 2rem;
+}
+
+.liked-videos .box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.liked-videos .box {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 2rem 2rem 1.5rem 2rem;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+}
+
+.liked-videos .box:hover {
+  box-shadow: 0 4px 16px rgba(41,3,64,0.10);
+}
+
+.liked-videos .tutor {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.liked-videos .tutor img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.liked-videos .tutor h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #3d1857;
+}
+
+.liked-videos .tutor span {
+  font-size: 0.95rem;
+  color: #888;
+}
+
+.liked-videos .thumb {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.liked-videos .title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1.2rem;
+}
+
+.liked-videos .flex-btn {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.liked-videos .inline-btn,
+.liked-videos .inline-delete-btn {
+  flex: 1 1 48%;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  border-radius: 0;
+  background: rgb(41, 3, 64);
+  color: #fff;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.liked-videos .inline-btn:hover,
+.liked-videos .inline-delete-btn:hover {
+  background: #dfbbf2;
+  color: #3d1857;
+}
+
+.liked-videos .inline-delete-btn.removed {
+  background: #ccc !important;
+  color: #fff !important;
+  cursor: default !important;
+}
+
+.liked-videos .empty-container {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 1.2rem;
+} 
