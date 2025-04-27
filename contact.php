@@ -44,53 +44,7 @@ if(isset($_POST['submit'])){
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-   
-   <style>
-     /* Styles for form feedback */
-     .alert {
-       padding: 15px;
-       margin-bottom: 20px;
-       border-radius: 5px;
-     }
-     .alert-success {
-       background-color: #d4edda;
-       color: #155724;
-       border: 1px solid #c3e6cb;
-     }
-     .alert-danger {
-       background-color: #f8d7da;
-       color: #721c24;
-       border: 1px solid #f5c6cb;
-     }
-     .alert-warning {
-       background-color: #fff3cd;
-       color: #856404;
-       border: 1px solid #ffeeba;
-     }
-     .form-error {
-       color: #721c24;
-       font-size: 0.9rem;
-       margin-top: 5px;
-       display: none;
-     }
-     .form-loading {
-       display: none;
-       text-align: center;
-       margin: 10px 0;
-     }
-     .spinner {
-       display: inline-block;
-       width: 30px;
-       height: 30px;
-       border: 3px solid rgba(0,0,0,0.1);
-       border-radius: 50%;
-       border-top-color: #3498db;
-       animation: spin 1s ease-in-out infinite;
-     }
-     @keyframes spin {
-       to { transform: rotate(360deg); }
-     }
-   </style>
+   <link rel="stylesheet" href="css/contact.css">
 </head>
 <body>
 
