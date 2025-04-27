@@ -15,6 +15,11 @@ if (isset($_POST['search_query'])) {
         if ($select_courses->rowCount() > 0) {
             while ($fetch_course = $select_courses->fetch(PDO::FETCH_ASSOC)) {
                 $course_id = $fetch_course['id'];
+                
+                // Get content count for this course
+                $select_content = $conn->prepare("SELECT COUNT(*) as content_count FROM `content` WHERE playlist_id = ? AND status = ?");
+                $select_content->execute([$course_id, 'active']);
+                $content_count = $select_content->fetch(PDO::FETCH_ASSOC)['content_count'];
 ?>
                 <div class="box">
                     <div class="tutor">
@@ -26,7 +31,17 @@ if (isset($_POST['search_query'])) {
                     </div>
                     <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
                     <h3 class="title"><?= $fetch_course['title']; ?></h3>
-                    <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+                    <div class="course-footer">
+                        <?php if(!empty($user_id)): ?>
+                            <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+                        <?php else: ?>
+                            <a href="javascript:void(0);" class="inline-btn view-playlist-btn" data-id="<?= $course_id; ?>">view playlist</a>
+                        <?php endif; ?>
+                        
+                        <?php if($content_count > 0): ?>
+                            <span class="lessons"><?= $content_count; ?> Videos</span>
+                        <?php endif; ?>
+                    </div>
                 </div>
 <?php
             }
