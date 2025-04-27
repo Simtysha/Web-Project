@@ -1,0 +1,61 @@
+/* Styles moved from playlist.php */
+.notification {
+   position: fixed;
+   bottom: 20px;
+   right: 20px;
+   padding: 15px 25px;
+   border-radius: 8px;
+   background-color: #4CAF50;
+   color: white;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+   z-index: 1000;
+   display: none;
+   font-size: 1.6rem;
+   transform: translateY(100%);
+   animation: slideUp 0.3s forwards;
+}
+
+@keyframes slideUp {
+   to {
+      transform: translateY(0);
+   }
+}
+
+.notification.error {
+   background-color: #f44336;
+}
+
+.save-list button {
+   transition: all 0.3s ease;
+}
+
+.save-list button:hover {
+   transform: translateY(-2px);
+}
+
+.videos-container .box {
+   transition: all 0.3s ease;
+}
+
+.videos-container .box:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.video-count {
+   background: rgba(0, 0, 0, 0.7);
+   color: white;
+   padding: 0.5rem 1rem;
+   border-radius: 5px;
+   position: absolute;
+   top: 1rem;
+   left: 1rem;
+   font-size: 1.4rem;
+}
+
+.empty {
+   text-align: center;
+   padding: 2rem;
+   font-size: 1.8rem;
+   color: #666;
+} 
