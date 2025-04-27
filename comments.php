@@ -7,6 +7,7 @@ if (!isset($_COOKIE['user_id'])) {
    exit();
 }
 
+
 $user_id = $_COOKIE['user_id'];
 
 // Handle AJAX requests
