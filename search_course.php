@@ -235,6 +235,27 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
          font-size: 12px;
          font-weight: 500;
       }
+
+      /* Remove border radius from modal boxes */
+.login-required-modal,
+.modal-content,
+.modal-dialog,
+.modal-box,
+.modal-wrapper,
+/* Add any other modal-related class names */
+[class*="modal"] {
+    border-radius: 0 !important;
+}
+
+/* Target specific button elements */
+.modal-content .btn,
+.login-btn,
+.register-btn,
+button[class*="login"],
+button[class*="register"] {
+    border-radius: 0 !important;
+}
+
    </style>
 
 </body>

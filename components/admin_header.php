@@ -37,31 +37,32 @@ if(isset($message)){
    </div>
 
    <div class="profile">
-      <?php
-         $select_profile = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
-         $select_profile->execute([$tutor_id]);
-         if($select_profile->rowCount() > 0){
-            $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
-      ?>
+   <?php
+      $select_profile = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
+      $select_profile->execute([$tutor_id]);
+      if($select_profile->rowCount() > 0){
+         $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
+   ?>
+      <div class="profile-header">
          <img src="../uploaded_files/<?= $fetch_profile['image']; ?>" alt="">
          <h3><?= $fetch_profile['name']; ?></h3>
          <span><?= $fetch_profile['profession']; ?></span>
-         <div class="profile-buttons">
-            <a href="profile.php" class="btn" style="position:relative;top:165px;">View profile</a>
-            <a href="../components/admin_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn" style="position:relative;top:163px;">Logout</a>
-         </div>
-      <?php
-         }else{
-      ?>
-      <div class="flex-btn">
-         <a href="login.php" class="option-btn">Login</a>
-         <a href="register.php" class="option-btn">Register</a>
       </div>
-      <?php
-         }
-      ?>
+      <div class="profile-actions">
+         <a href="profile.php" class="btn">View Profile</a>
+         <a href="../components/admin_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn">Logout</a>
+      </div>
+   <?php
+      }else{
+   ?>
+   <div class="flex-btn">
+      <a href="login.php" class="option-btn">Login</a>
+      <a href="register.php" class="option-btn">Register</a>
    </div>
-
+   <?php
+      }
+   ?>
+</div>
    </section>
 
 </header>

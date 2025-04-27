@@ -286,110 +286,95 @@ section{
    background-color:#dfbbf2
 }
 
-.header .flex .profile.active {
-    transform: scale(1);
-    transition: 0.2s ease;
- }
-
+/* Profile dropdown styling */
 .header .flex .profile {
-    position: absolute;
-    top: calc(100% + (-23px)); 
-    right: -140px; 
-    background-color: var(--white);
-    padding: 2rem;
-    text-align: center;
-    width: 20rem;
-    transform: scale(0);
-    transform-origin: top right;
-    height: 200px;
- }
+   position: fixed;
+   top: 70px;
+   right: 20px;
+   width: 18rem; /* Increased from 15rem */
+   transform: scale(0);
+   transform-origin: top right;
+   transition: 0.2s ease;
+   z-index: 1000;
+   border-radius: 15px;
+   overflow: hidden;
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
 .header .flex .profile.active {
-    transform: scale(1);
-    transition: 0.2s ease;
-    height:300px;
-    background-color: transparent;
- }
+   transform: scale(1);
+}
 
-.profile .flex-btn {
-   background-color: #cb87ef;
-   padding: 20px;
+/* Purple header section with image, name and role */
+.header .flex .profile .profile-header {
+   background-color: #9d4edd;
+   padding: 1.8rem; /* Increased from 1.5rem */
    text-align: center;
 }
 
-.profile .flex {
-   background-color:#cb87ef;
-   padding: 20px;
-}
-
-.profile-buttons {
-   background-color: #cb87ef;
-   gap: 10px;
-   position:relative;
-   bottom:220px;
-   height:250px;
-   z-index:-1;
-}
-
-.header .flex .profile.active .btn {
-   font-size:12px; 
-}
-
-.header .flex .profile.active .delete-btn {
-   font-size:12px;
-}
-
-.header .flex .profile .option-btn {
-   display: block;
-   width: 100%;
-   padding: 1rem;
-   font-size: 12px;
-   font-weight: bold;
-   color: var(--black);
-   background-color: var(--light-bg);
-   transition: background-color 0.3s ease;
-   position: relative;
-   bottom:50px;
-}
-  
-.header .flex .profile .option-btn:hover {
-   background-color: #dfbbf2;
-   color: var(--white);
-}
-
 .header .flex .profile img {
-   height: 10rem;
-   width: 10rem;
+   height: 6rem; /* Increased from 5rem */
+   width: 6rem; /* Increased from 5rem */
    border-radius: 50%;
    object-fit: cover;
-   margin-bottom: .5rem;
-   position:relative;
-   bottom:30px;
+   margin-bottom: 0.7rem; /* Increased from 0.5rem */
+   border: 2px solid #d8f3ff;
 }
 
 .header .flex .profile h3 {
-   font-size: 2rem;
-   color: var(--black);
-   position:relative;
-   bottom:40px;
+   font-size: 1.7rem; /* Increased from 1.5rem */
+   color: #fff;
+   margin-bottom: 0.5rem;
 }
 
 .header .flex .profile span {
-   color: black;
-   font-size: 1rem;
-   position:relative;
-   bottom:45px;
+   color: #fff;
+   font-size: 1.1rem; /* Increased from 1rem */
+   background-color: rgba(0, 0, 0, 0.2);
+   padding: 0.3rem 1.2rem; /* Slightly increased padding */
+   border-radius: 50px;
+   display: inline-block;
 }
 
-.header .flex .icons div#user-btn {
-   display: block;
+/* White section with buttons */
+.header .flex .profile .profile-actions {
+   background-color: #fff;
+   padding: 1.2rem; /* Increased from 1rem */
+   display: flex;
+   flex-direction: column;
+   gap: 1rem; /* Increased from 0.8rem */
 }
 
-.header .flex .icons div#toggle-btn {
-   display: block;
+/* View Profile button */
+.header .flex .profile .btn {
+   background-color: #9d4edd;
+   color: #fff;
+   padding: 0.9rem; /* Increased from 0.8rem */
+   border-radius: 5px;
+   font-size: 1.3rem; /* Increased from 1.2rem */
+   text-align: center;
+   transition: all 0.3s ease;
+   border: none;
+   cursor: pointer;
 }
 
+/* Logout button */
+.header .flex .profile .delete-btn {
+   background-color: #fff;
+   color: #e63946;
+   padding: 0.9rem; /* Increased from 0.8rem */
+   border-radius: 5px;
+   font-size: 1.3rem; /* Increased from 1.2rem */
+   text-align: center;
+   transition: all 0.3s ease;
+   border: 1px solid #e63946;
+   cursor: pointer;
+}
 
+.header .flex .profile .delete-btn:hover {
+   background-color: #e63946;
+   color: #fff;
+}
 
 .form-container{
    display: flex;
