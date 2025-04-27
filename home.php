@@ -143,6 +143,26 @@ $total_bookmarked = $select_bookmark->rowCount();
    .modal-buttons .btn:hover {
       background-color: #dfbbf2;
    }
+
+      /* Remove border radius from modal boxes */
+.login-required-modal,
+.modal-content,
+.modal-dialog,
+.modal-box,
+.modal-wrapper,
+/* Add any other modal-related class names */
+[class*="modal"] {
+    border-radius: 0 !important;
+}
+
+/* Target specific button elements */
+.modal-content .btn,
+.login-btn,
+.register-btn,
+button[class*="login"],
+button[class*="register"] {
+    border-radius: 0 !important;
+}
    </style>
 
 </head>
@@ -327,6 +347,6 @@ document.addEventListener('DOMContentLoaded', function() {
    });
 });
 </script>
-   
+
 </body>
 </html>
