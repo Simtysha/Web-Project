@@ -15,6 +15,7 @@ $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ? LIMIT 1");
 $select_tutor->execute([$tutor_id]);
 $fetch_profile = $select_tutor->fetch(PDO::FETCH_ASSOC);
 
+
 // Handle AJAX request
 if(isset($_POST['ajax_submit']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
    header('Content-Type: application/json');

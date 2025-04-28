@@ -15,6 +15,7 @@ if(isset($_COOKIE['user_id'])){
    exit();
 }
 
+
 // Check if already logged in as tutor/admin
 if(isset($_COOKIE['tutor_id'])){
    header('location:admin/dashboard.php');

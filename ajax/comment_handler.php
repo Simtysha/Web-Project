@@ -3,6 +3,7 @@ include '../components/connect.php';
 
 header('Content-Type: application/json');
 
+
 // JSON Schema for comment requests
 $commentSchemas = [
     'add' => [

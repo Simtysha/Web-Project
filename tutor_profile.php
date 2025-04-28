@@ -87,6 +87,7 @@ if(isset($_POST['tutor_fetch'])){
 
 <!-- teachers profile section ends -->
 
+
 <section class="courses">
 
    <h1 class="heading" style="position:Relative;top:150px;right:190px;">Latest Courses</h1>

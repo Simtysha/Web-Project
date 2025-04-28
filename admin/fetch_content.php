@@ -79,4 +79,5 @@ if (isset($_GET['get_id']) && isset($_GET['tutor_id'])) {
       'commentsHTML' => $commentsHTML
    ]);
 }
+
 ?>

@@ -247,6 +247,7 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
     border-radius: 0 !important;
 }
 
+
 /* Target specific button elements */
 .modal-content .btn,
 .login-btn,

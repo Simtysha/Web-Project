@@ -16,6 +16,7 @@ class SimpleREST {
 		header("Content-Type:". $contentType);
 	}
 	
+	
 	public function getHttpStatusMessage($statusCode){
 		$httpStatus = array(
 			100 => 'Continue',  

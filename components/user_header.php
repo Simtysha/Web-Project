@@ -13,6 +13,7 @@ if (isset($message) && isset($display_in_header) && $display_in_header === true)
 }
 ?>
 
+
 <header class="header">
 
    <section class="flex">

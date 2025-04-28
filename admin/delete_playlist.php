@@ -9,6 +9,7 @@
 // }
 
 // // Handle POST request for deleting a playlist
+
 // if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['playlist_id'])) {
 //    // Sanitize the playlist ID received in the POST request
 //    $tutor_id = $_COOKIE['tutor_id'];

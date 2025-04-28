@@ -8,6 +8,7 @@ if(isset($_COOKIE['user_id'])){
    $user_id = '';
 }
 
+
 // Flag to control where messages are displayed
 $display_in_header = false;
 

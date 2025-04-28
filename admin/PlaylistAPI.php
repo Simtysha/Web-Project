@@ -9,6 +9,7 @@ class SimpleREST {
     }
 }
 
+
 class PlaylistAPI extends SimpleREST {
 
     public function getAllPlaylists() {

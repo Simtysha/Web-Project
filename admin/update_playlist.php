@@ -230,6 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['get_id']) && isset($_SE
                 }
             });
 
+            
             // AJAX Submit Form
             $('#playlistForm').on('submit', function(e) {
                 e.preventDefault();

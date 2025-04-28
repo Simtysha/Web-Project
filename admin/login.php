@@ -151,6 +151,7 @@ $(document).ready(function() {
         }
     });
 
+    
     // AJAX login submission
     $('#loginForm').on('submit', function(e) {
         e.preventDefault();

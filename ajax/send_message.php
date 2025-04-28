@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 include '../components/connect.php';
 
+
 // Function to validate email
 function isValidEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL);

@@ -54,4 +54,5 @@ if(isset($_GET['get_id']) && isset($_GET['tutor_id'])){
    // Return playlist and videos as JSON
    echo json_encode(['playlistHTML' => $playlistHTML, 'videosHTML' => $videosHTML]);
 }
+
 ?>

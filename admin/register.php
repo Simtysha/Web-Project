@@ -27,6 +27,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
         exit;
     }
     
+    
     // Process AJAX registration
     if(isset($_POST['ajax_register'])) {
         // Validate inputs

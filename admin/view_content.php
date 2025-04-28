@@ -34,6 +34,7 @@ if(isset($_POST['delete_comment'])){
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

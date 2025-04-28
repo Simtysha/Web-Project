@@ -16,6 +16,7 @@ document.querySelector('#search-btn').onclick = () =>{
 
 
 
+
 window.onscroll = () =>{
    profile.classList.remove('active');
    searchForm.classList.remove('active');

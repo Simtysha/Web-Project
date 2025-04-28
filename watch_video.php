@@ -284,6 +284,7 @@ if(isset($_POST['update_now'])){
 
 </section>
 
+
 <!-- watch video section ends -->
 
 <!-- comments section starts  -->

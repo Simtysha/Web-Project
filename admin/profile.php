@@ -10,6 +10,7 @@ if (isset($_COOKIE['tutor_id'])) {
     exit;
 }
 
+
 $fetch_profile = [];
 $select_profile = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
 $select_profile->execute([$tutor_id]);

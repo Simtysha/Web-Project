@@ -94,4 +94,5 @@ switch($method) {
             'message' => 'Method not allowed'
         );
         echo json_encode($errorResponse);
+        
 }

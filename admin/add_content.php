@@ -8,6 +8,7 @@ if (isset($_COOKIE['tutor_id'])) {
    exit;
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    $response = [];
 

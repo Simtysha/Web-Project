@@ -122,6 +122,7 @@ if(isset($_POST['submit'])){
 
 </section>
 
+
 <!-- contact section ends -->
 
 <!-- AJAX script for form submission -->

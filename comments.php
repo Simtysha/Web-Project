@@ -181,6 +181,7 @@ if (isset($_POST['update_now'])) {
       </div>
    </section>
 
+   
    <!-- Custom JS file link -->
    <script src="js/script.js"></script>
 

@@ -9,6 +9,7 @@ if(isset($_COOKIE['tutor_id'])){
    header('location:login.php');
 }
 
+
 // Web Service API endpoint for AJAX search
 if(isset($_GET['ajax_search']) && isset($_GET['keyword'])) {
     $search = $_GET['keyword'];
