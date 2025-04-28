@@ -6,7 +6,7 @@ Reference : https://phppot.com/php/php-restful-web-service/
 */
 class SimpleREST {
 	
-	private $httpVersion = "HTTP/1.1";
+	private $httpVersion = "HTTP/1.1"; 
 
 	public function setHttpHeaders($contentType, $statusCode){
 		
