@@ -1,7 +1,7 @@
 <?php
 include 'components/connect.php';
 
-// Check login status once at the beginning
+
 if (!isset($_COOKIE['user_id'])) {
    header('location:home.php');
    exit();
@@ -10,7 +10,7 @@ if (!isset($_COOKIE['user_id'])) {
 
 $user_id = $_COOKIE['user_id'];
 
-// Handle AJAX requests
+
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
    $response = array('status' => 'error', 'message' => 'Invalid action');
 
@@ -45,7 +45,6 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
       }
    }
 
-   // Fetch single comment for editing via AJAX
    if (isset($_GET['action']) && $_GET['action'] == 'get_comment') {
       $comment_id = filter_var($_GET['comment_id'], FILTER_SANITIZE_STRING);
 
@@ -60,13 +59,12 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
       }
    }
 
-   // Return JSON response for AJAX requests
    header('Content-Type: application/json');
    echo json_encode($response);
    exit();
 }
 
-// Handle traditional form submissions (fallback for non-JS browsers)
+
 if (isset($_POST['delete_comment'])) {
    $delete_id = filter_var($_POST['comment_id'], FILTER_SANITIZE_STRING);
 
@@ -104,13 +102,13 @@ if (isset($_POST['update_now'])) {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Your Comments</title>
 
-   <!-- Font Awesome CDN link -->
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- jQuery CDN -->
+
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-   <!-- Custom CSS file link -->
+ 
    <link rel="stylesheet" href="css/style.css">
    <link rel="stylesheet" href="css/comment.css">
 </head>
@@ -118,11 +116,10 @@ if (isset($_POST['update_now'])) {
 <body>
 
    <?php include 'components/user_header.php'; ?>
-
-   <!-- Notification area -->
+>
    <div id="notification" class="notification"></div>
 
-   <!-- Edit comment modal -->
+
    <div id="edit-modal">
       <div class="modal-content">
          <h2>Edit Comment</h2>
@@ -142,7 +139,7 @@ if (isset($_POST['update_now'])) {
 
       <div class="show-comments" id="comments-container">
          <?php
-         // Optimized query using JOIN to fetch all data at once
+        
          $query = "SELECT c.*, ct.title as content_title, ct.id as content_id 
                   FROM `comments` c
                   JOIN `content` ct ON c.content_id = ct.id
@@ -181,27 +178,25 @@ if (isset($_POST['update_now'])) {
       </div>
    </section>
 
-   
-   <!-- Custom JS file link -->
+
    <script src="js/script.js"></script>
 
    <script>
       $(document).ready(function() {
-         // Show notification function with improved animation
+         
          function showNotification(message, isError = false) {
             const notification = $('#notification');
             notification.text(message).toggleClass('error', isError).fadeIn();
             setTimeout(() => notification.fadeOut(), 3000);
          }
 
-         // Delete comment
+        
          $(document).on('click', '.delete-btn', function() {
             if (!confirm('Are you sure you want to delete this comment?')) return;
 
             const commentId = $(this).data('id');
             const commentBox = $('#comment-' + commentId);
 
-            // Add visual feedback
             commentBox.addClass('fade-out');
 
             $.ajax({
@@ -217,7 +212,6 @@ if (isset($_POST['update_now'])) {
                      commentBox.slideUp(300, function() {
                         $(this).remove();
 
-                        // Check if no more comments exist
                         if ($('.comment-box').length === 0) {
                            $('#comments-container').html('<p class="empty">No comments added yet!</p>');
                         }
@@ -234,21 +228,18 @@ if (isset($_POST['update_now'])) {
                }
             });
          });
-
-         // Open edit modal with improved animation
+n
          $(document).on('click', '.edit-btn', function() {
             const commentId = $(this).data('id');
             const commentText = $('#comment-' + commentId + ' .comment-text').text();
 
-            // Populate the edit form
             $('#edit-comment-id').val(commentId);
             $('#edit-comment-text').val(commentText).focus();
 
-            // Show the edit modal with animation
+            
             $('#edit-modal').css('display', 'flex').addClass('active');
          });
 
-         // Close edit modal with animation
          function closeModal() {
             $('#edit-modal').removeClass('active');
             setTimeout(() => {
@@ -258,14 +249,13 @@ if (isset($_POST['update_now'])) {
 
          $('#cancel-edit').click(closeModal);
 
-         // Close modal when clicking outside with animation
          $(window).click(function(e) {
             if (e.target.id === 'edit-modal') {
                closeModal();
             }
          });
 
-         // Submit edit form
+        
          $('#edit-comment-form').submit(function(e) {
             e.preventDefault();
 
@@ -283,18 +273,17 @@ if (isset($_POST['update_now'])) {
                },
                dataType: 'json',
                beforeSend: function() {
-                  // Disable submit button and show loading state
+               
                   $('#edit-comment-form button[type="submit"]').prop('disabled', true).html('<span class="loader"></span>Updating...');
                },
                success: function(response) {
                   if (response.status === 'success') {
-                     // Update the comment text in the DOM
+                     
                      commentBox.find('.comment-text').text(commentText);
 
-                     // Hide the modal
+                     
                      closeModal();
 
-                     // Show success message
                      showNotification('Comment updated successfully');
                   } else {
                      showNotification(response.message, true);
@@ -304,7 +293,7 @@ if (isset($_POST['update_now'])) {
                   showNotification('Error updating comment', true);
                },
                complete: function() {
-                  // Re-enable the submit button
+                
                   $('#edit-comment-form button[type="submit"]').prop('disabled', false).text('Update Comment');
                }
             });

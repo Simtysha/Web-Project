@@ -4,7 +4,6 @@ include '../components/connect.php';
 header('Content-Type: application/json');
 
 
-// JSON Schema for comment requests
 $commentSchemas = [
     'add' => [
         'type' => 'object',
@@ -33,9 +32,9 @@ $commentSchemas = [
     ]
 ];
 
-// Validate request against schema
+
 function validateAgainstSchema($data, $schema) {
-    // Basic validation for demo purposes
+ 
     foreach ($schema['required'] as $field) {
         if (!isset($data[$field])) {
             return false;
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $user_id = $_COOKIE['user_id'];
 
-    // Determine action type and validate accordingly
+
     if (isset($_POST['action'])) {
         if ($_POST['action'] === 'delete_comment') {
             if (!validateAgainstSchema($_POST, $commentSchemas['delete'])) {
@@ -103,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } 
     else {
-        // Adding new comment
+      
         if (!validateAgainstSchema($_POST, $commentSchemas['add'])) {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request data']);
             exit;
@@ -125,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $tutor_id = $fetch_content['tutor_id'];
 
-            // Check for duplicate comment
+     
             $select_comment = $conn->prepare("SELECT * FROM `comments` WHERE content_id = ? AND user_id = ? AND comment = ?");
             $select_comment->execute([$content_id, $user_id, $comment]);
 
@@ -134,16 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
-            // Insert new comment
             $insert_comment = $conn->prepare("INSERT INTO `comments`(id, content_id, user_id, tutor_id, comment) VALUES(?,?,?,?,?)");
             $insert_comment->execute([$id, $content_id, $user_id, $tutor_id, $comment]);
 
-            // Get user details for the comment HTML
             $select_user = $conn->prepare("SELECT * FROM `users` WHERE id = ? LIMIT 1");
             $select_user->execute([$user_id]);
             $fetch_user = $select_user->fetch(PDO::FETCH_ASSOC);
 
-            // Prepare comment HTML
+    
             $comment_html = '
             <div class="box" id="comment-'.$id.'">
                 <div class="user">

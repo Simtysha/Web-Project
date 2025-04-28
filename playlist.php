@@ -15,7 +15,7 @@ if (!$get_id) {
    exit();
 }
 
-// Handle AJAX requests
+
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
    $response = array('status' => 'error', 'message' => 'Invalid action');
 
@@ -23,7 +23,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
       try {
          $list_id = filter_var($_POST['list_id'], FILTER_SANITIZE_STRING);
 
-         // Verify playlist exists and is active
+        
          $verify_playlist = $conn->prepare("SELECT id FROM `playlist` WHERE id = ? AND status = 'active' LIMIT 1");
          $verify_playlist->execute([$list_id]);
 
@@ -65,10 +65,9 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Playlist</title>
 
-   <!-- font awesome cdn link  -->
+   
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
    <link rel="stylesheet" href="css/playlist.css">
 
@@ -78,10 +77,10 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 
    <?php include 'components/user_header.php'; ?>
 
-   <!-- Notification area -->
+
    <div id="notification" class="notification"></div>
 
-   <!-- playlist section starts  -->
+
 
    <section class="playlist">
 
@@ -192,7 +191,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 
 
 
-   <!-- custom js file link  -->
+ 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
    <script src="js/script.js"></script>
 
@@ -204,12 +203,11 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
             setTimeout(() => notification.fadeOut(), 3000);
          }
 
-         // Handle bookmark button click
          $(document).on('click', '.bookmark-btn', function() {
             const button = $(this);
             const listId = button.data('id');
 
-            // Disable button temporarily
+          
             button.prop('disabled', true);
 
             $.ajax({
@@ -222,7 +220,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                dataType: 'json',
                success: function(response) {
                   if (response.status === 'success') {
-                     // Update button appearance
+                    
                      const icon = button.find('i');
                      const text = button.find('span');
 
@@ -244,7 +242,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                   showNotification('Error processing your request. Please try again.', true);
                },
                complete: function() {
-                  // Re-enable button
+              
                   button.prop('disabled', false);
                }
             });

@@ -9,7 +9,6 @@ if(isset($_COOKIE['user_id'])){
    header('location:login.php');
 }
 
-// Initialize response array for JSON output
 $response = [
     'status' => 'error',
     'message' => [],
@@ -39,7 +38,6 @@ if(isset($_POST['submit'])){
    $email = filter_var($email, FILTER_SANITIZE_STRING);
 
    if(!empty($email)){
-      // Validate email format
       if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
          $response['message'][] = 'Invalid email format!';
          $is_valid = false;
@@ -67,7 +65,6 @@ if(isset($_POST['submit'])){
       $image_tmp_name = $_FILES['image']['tmp_name'];
       $image_folder = 'uploaded_files/'.$rename;
       
-      // Validate image file type
       $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
       if(!in_array(strtolower($ext), $allowed_extensions)){
          $response['message'][] = 'Invalid image format! Allowed formats: JPG, JPEG, PNG, GIF';
@@ -114,21 +111,17 @@ if(isset($_POST['submit'])){
       }
    }
 
-   // Update response status if all validations pass
    if($is_valid){
       $response['status'] = 'success';
    }
    
-   // Set message variable for PHP display
    $message = $response['message'];
 }
 
-// Fetch updated profile data
 $select_profile = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
 $select_profile->execute([$user_id]);
 $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
 
-// AJAX request handling
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
    header('Content-Type: application/json');
    echo json_encode($response);
@@ -144,10 +137,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Update profile</title>
 
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -197,7 +188,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
 
 </section>
 
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
 
 <script>
@@ -211,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
    const passwordError = document.getElementById('password-error');
    const cpassError = document.getElementById('cpass-error');
    
-   // Email validation
    emailInput.addEventListener('blur', function() {
       if(emailInput.value) {
          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -223,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
    });
    
-   // Password validation
    newPassInput.addEventListener('blur', function() {
       if(newPassInput.value && newPassInput.value.length < 5) {
          passwordError.textContent = 'Password must be at least 5 characters';
@@ -232,7 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
    });
    
-   // Confirm password validation
    cpassInput.addEventListener('blur', function() {
       if(cpassInput.value && cpassInput.value !== newPassInput.value) {
          cpassError.textContent = 'Passwords do not match';
@@ -241,11 +228,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
    });
    
-   // Form submission validation
    form.addEventListener('submit', function(e) {
       let hasError = false;
       
-      // Validate email if provided
       if(emailInput.value) {
          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
          if(!emailRegex.test(emailInput.value)) {
@@ -254,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
          }
       }
       
-      // Validate password if old password provided
       if(oldPassInput.value) {
          if(newPassInput.value.length < 5) {
             passwordError.textContent = 'New password must be at least 5 characters';

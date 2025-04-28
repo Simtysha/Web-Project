@@ -19,10 +19,8 @@ if(isset($_COOKIE['user_id'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Tutors</title>
 
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -30,7 +28,6 @@ if(isset($_COOKIE['user_id'])){
 
 <?php include 'components/user_header.php'; ?>
 
-<!-- teachers section starts  -->
 
 <section class="teachers">
 
@@ -96,7 +93,6 @@ if(isset($_COOKIE['user_id'])){
 
 </section>
 
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
    
 </body>

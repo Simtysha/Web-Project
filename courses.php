@@ -8,7 +8,7 @@ if(isset($_COOKIE['user_id'])){
    $user_id = '';
 }
 
-// JSON API endpoint for courses data
+
 if(isset($_GET['api']) && $_GET['api'] == 'courses') {
    header('Content-Type: application/json');
    
@@ -24,7 +24,7 @@ if(isset($_GET['api']) && $_GET['api'] == 'courses') {
          $select_tutor->execute([$fetch_course['tutor_id']]);
          $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
          
-         // Get content count for this course
+
          $select_content = $conn->prepare("SELECT COUNT(*) as content_count FROM `content` WHERE playlist_id = ? AND status = ?");
          $select_content->execute([$course_id, 'active']);
          $content_count = $select_content->fetch(PDO::FETCH_ASSOC)['content_count'];
@@ -59,10 +59,10 @@ if(isset($_GET['api']) && $_GET['api'] == 'courses') {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Courses</title>
 
-   <!-- font awesome cdn link  -->
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+
    <link rel="stylesheet" href="css/style.css">
    <link rel="stylesheet" href="css/courses.css">
 
@@ -71,13 +71,12 @@ if(isset($_GET['api']) && $_GET['api'] == 'courses') {
 
 <?php include 'components/user_header.php'; ?>
 
-<!-- courses section starts  -->
+
 
 <section class="courses">
 
    <h1 class="heading" style="position: relative; top: 50px;">All courses</h1>
-   
-   <!-- Login notification modal (initially hidden) -->
+>
    <div id="login-modal" class="modal">
       <div class="modal-content">
          <div class="modal-header">
@@ -106,7 +105,7 @@ if(isset($_GET['api']) && $_GET['api'] == 'courses') {
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
 
-               // Get content count for this course
+
                $select_content = $conn->prepare("SELECT COUNT(*) as content_count FROM `content` WHERE playlist_id = ? AND status = ?");
                $select_content->execute([$course_id, 'active']);
                $content_count = $select_content->fetch(PDO::FETCH_ASSOC)['content_count'];
@@ -143,42 +142,40 @@ if(isset($_GET['api']) && $_GET['api'] == 'courses') {
 
 </section>
 
-<!-- courses section ends -->
 
 
 
-<!-- custom js file link  -->
+
+
 <script src="js/script.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-   // Get the modal
    const modal = document.getElementById('login-modal');
    
-   // Get the close button
+
    const closeBtn = document.querySelector('.close-modal');
    
-   // Get all view playlist buttons
+ 
    const viewPlaylistBtns = document.querySelectorAll('.view-playlist-btn');
    
-   // Add click event to all view playlist buttons
+ 
    viewPlaylistBtns.forEach(function(btn) {
       btn.addEventListener('click', function(e) {
          e.preventDefault();
          
-         // Show the login modal
          modal.style.display = 'block';
       });
    });
    
-   // Close the modal when clicking the close button
+ 
    if (closeBtn) {
       closeBtn.addEventListener('click', function() {
          modal.style.display = 'none';
       });
    }
    
-   // Close the modal when clicking outside of it
+
    window.addEventListener('click', function(event) {
       if (event.target == modal) {
          modal.style.display = 'none';

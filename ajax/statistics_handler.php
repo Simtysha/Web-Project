@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 
 try {
-    // In a real application, these would come from the database
+
     $statistics = [
         'courses' => [
             'icon' => 'fas fa-graduation-cap',

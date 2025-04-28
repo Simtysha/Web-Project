@@ -9,7 +9,6 @@ if(!isset($_COOKIE['user_id'])){
 
 $user_id = $_COOKIE['user_id'];
 
-// Fetch user data and counts in a more efficient way
 $select_user = $conn->prepare("
    SELECT 
       u.*,
@@ -43,7 +42,7 @@ if(!$user_data) {
    exit();
 }
 
-// Get recent activity (simplified version without timestamp)
+
 $recent_activity = $conn->prepare("
    (SELECT 'like' as type, content_id
     FROM likes 
@@ -68,10 +67,9 @@ $activities = $recent_activity->fetchAll(PDO::FETCH_ASSOC);
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Profile - <?= htmlspecialchars($user_data['name']) ?></title>
 
-   <!-- font awesome cdn link  -->
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-   
-   <!-- custom css file link  -->
+
    <link rel="stylesheet" href="css/style.css">
    <link rel="stylesheet" href="css/profile.css">
 </head>

@@ -16,7 +16,7 @@ if (isset($_POST['search_query'])) {
             while ($fetch_course = $select_courses->fetch(PDO::FETCH_ASSOC)) {
                 $course_id = $fetch_course['id'];
                 
-                // Get content count for this course
+
                 $select_content = $conn->prepare("SELECT COUNT(*) as content_count FROM `content` WHERE playlist_id = ? AND status = ?");
                 $select_content->execute([$course_id, 'active']);
                 $content_count = $select_content->fetch(PDO::FETCH_ASSOC)['content_count'];

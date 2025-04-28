@@ -4,7 +4,7 @@ include '../components/connect.php';
 header('Content-Type: application/json');
 
 
-// JSON Schema for like request
+
 $likeRequestSchema = [
     'type' => 'object',
     'properties' => [
@@ -14,9 +14,9 @@ $likeRequestSchema = [
     'required' => ['content_id', 'action']
 ];
 
-// Validate request against schema
+
 function validateAgainstSchema($data, $schema) {
-    // Basic validation for demo purposes
+   
     foreach ($schema['required'] as $field) {
         if (!isset($data[$field])) {
             return false;
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $user_id = $_COOKIE['user_id'];
     
-    // Validate request data against schema
+    
     if (!validateAgainstSchema($_POST, $likeRequestSchema)) {
         echo json_encode(['status' => 'error', 'message' => 'Invalid request data']);
         exit;
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content_id = filter_var($_POST['content_id'], FILTER_SANITIZE_STRING);
 
     try {
-        // Get content details
+        
         $select_content = $conn->prepare("SELECT * FROM `content` WHERE id = ? LIMIT 1");
         $select_content->execute([$content_id]);
         $fetch_content = $select_content->fetch(PDO::FETCH_ASSOC);
@@ -54,16 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $tutor_id = $fetch_content['tutor_id'];
 
-        // Check if already liked
+      
         $select_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ? AND content_id = ?");
         $select_likes->execute([$user_id, $content_id]);
 
         if($select_likes->rowCount() > 0) {
-            // Remove like
+
             $remove_likes = $conn->prepare("DELETE FROM `likes` WHERE user_id = ? AND content_id = ?");
             $remove_likes->execute([$user_id, $content_id]);
             
-            // Get updated likes count
+      
             $new_likes = $conn->prepare("SELECT COUNT(*) as count FROM `likes` WHERE content_id = ?");
             $new_likes->execute([$content_id]);
             $likes_count = $new_likes->fetch(PDO::FETCH_ASSOC)['count'];
@@ -74,11 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'likes_count' => $likes_count
             ]);
         } else {
-            // Add like
+           
             $insert_likes = $conn->prepare("INSERT INTO `likes`(user_id, tutor_id, content_id) VALUES(?,?,?)");
             $insert_likes->execute([$user_id, $tutor_id, $content_id]);
             
-            // Get updated likes count
+       
             $new_likes = $conn->prepare("SELECT COUNT(*) as count FROM `likes` WHERE content_id = ?");
             $new_likes->execute([$content_id]);
             $likes_count = $new_likes->fetch(PDO::FETCH_ASSOC)['count'];

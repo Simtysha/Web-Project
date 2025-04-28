@@ -1,6 +1,5 @@
 <?php
-// Only display messages in the header if the display_in_header flag is true
-// Since we're displaying messages in the main content, we'll skip displaying them here
+
 if (isset($message) && isset($display_in_header) && $display_in_header === true) {
    foreach ($message as $message) {
       echo '
@@ -76,25 +75,24 @@ if (isset($message) && isset($display_in_header) && $display_in_header === true)
 
 </header>
 
-<!-- header section ends -->
+
 
 <script>
    $(document).ready(function() {
       const searchForm = $('#search-form');
       const searchInput = $('#search-input');
 
-      // Handle form submission
       searchForm.on('submit', function(e) {
          const searchQuery = searchInput.val().trim();
          if (searchQuery.length > 0) {
-            // Allow form to submit normally to search_course.php
+
             return true;
          }
          e.preventDefault();
          return false;
       });
 
-      // If we're on search_course.php, handle real-time search
+     
       if (window.location.pathname.includes('search_course.php')) {
          searchInput.on('input', function() {
             const query = $(this).val().trim();
@@ -102,17 +100,16 @@ if (isset($message) && isset($display_in_header) && $display_in_header === true)
          });
       }
 
-      // Update URL when searching without reloading the page
       function performSearch(query) {
          if (window.location.pathname.includes('search_course.php')) {
-            // Update URL without reloading
+       
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('search', query);
             window.history.pushState({
                path: newUrl.href
             }, '', newUrl.href);
 
-            // Perform AJAX search
+    
             if (query.length > 0) {
                $.ajax({
                   url: 'search_ajax.php',
@@ -133,7 +130,7 @@ if (isset($message) && isset($display_in_header) && $display_in_header === true)
          }
       }
 
-      // Handle initial search value if on search page
+    
       if (window.location.pathname.includes('search_course.php')) {
          const urlParams = new URLSearchParams(window.location.search);
          const searchQuery = urlParams.get('search');

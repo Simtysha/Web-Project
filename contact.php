@@ -7,7 +7,7 @@ if(isset($_COOKIE['user_id'])){
    $user_id = '';
 }
 
-// We'll keep the existing PHP processing for non-JS users (as fallback)
+
 if(isset($_POST['submit'])){
    $name = $_POST['name']; 
    $name = filter_var($name, FILTER_SANITIZE_STRING);
@@ -39,10 +39,10 @@ if(isset($_POST['submit'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Contact</title>
 
-   <!-- font awesome cdn link  -->
+   
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+
    <link rel="stylesheet" href="css/style.css">
    <link rel="stylesheet" href="css/contact.css">
 </head>
@@ -50,7 +50,7 @@ if(isset($_POST['submit'])){
 
 <?php include 'components/user_header.php'; ?>
 
-<!-- contact section starts  -->
+
 
 <section class="contact">
 
@@ -63,7 +63,7 @@ if(isset($_POST['submit'])){
       <form id="contactForm" action="" method="post">
          <h3>Get in Touch</h3>
          
-         <!-- Response feedback container -->
+        
          <div id="formResponse" style="display: none;"></div>
          
          <div class="form-group">
@@ -123,9 +123,7 @@ if(isset($_POST['submit'])){
 </section>
 
 
-<!-- contact section ends -->
 
-<!-- AJAX script for form submission -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
@@ -133,13 +131,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const formLoading = document.getElementById('formLoading');
     const submitBtn = document.getElementById('submitBtn');
     
-    // Error elements
+  
     const nameError = document.getElementById('nameError');
     const emailError = document.getElementById('emailError');
     const numberError = document.getElementById('numberError');
     const msgError = document.getElementById('msgError');
     
-    // Client-side validation functions
     function validateName(name) {
         return name.trim().length > 0 && name.trim().length <= 50;
     }
@@ -158,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return msg.trim().length > 0 && msg.trim().length <= 1000;
     }
     
-    // Reset error states
+    
     function resetErrors() {
         nameError.style.display = 'none';
         emailError.style.display = 'none';
@@ -167,20 +164,20 @@ document.addEventListener('DOMContentLoaded', function() {
         formResponse.style.display = 'none';
     }
     
-    // Handle form submission
+    
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Reset previous error messages
+        
         resetErrors();
         
-        // Get form values
+     
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const number = document.getElementById('number').value;
         const msg = document.getElementById('msg').value;
         
-        // Validate form data client-side
+      
         let isValid = true;
         
         if (!validateName(name)) {
@@ -207,25 +204,25 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
         }
         
-        // If validation passes, submit form via AJAX
+    
         if (isValid) {
-            // Show loading indicator
+          
             formLoading.style.display = 'block';
             submitBtn.disabled = true;
             
-            // Create form data object
+       
             const formData = new FormData();
             formData.append('name', name);
             formData.append('email', email);
             formData.append('number', number);
             formData.append('msg', msg);
             
-            // Create and send XMLHttpRequest
+         
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'api/send_message.php', true);
             
             xhr.onload = function() {
-                // Hide loading indicator
+              
                 formLoading.style.display = 'none';
                 submitBtn.disabled = false;
                 
@@ -233,13 +230,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     try {
                         const response = JSON.parse(xhr.responseText);
                         
-                        // Display appropriate message based on response
+                   
                         formResponse.style.display = 'block';
                         
                         if (response.status === 'success') {
                             formResponse.className = 'alert alert-success';
                             formResponse.innerHTML = '<p>' + response.message + '</p>';
-                            // Reset form on success
+                           
                             contactForm.reset();
                         } else if (response.status === 'warning') {
                             formResponse.className = 'alert alert-warning';
@@ -260,24 +257,24 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         }
                     } catch (e) {
-                        // Handle JSON parsing error
+                       
                         formResponse.className = 'alert alert-danger';
                         formResponse.innerHTML = '<p>An unexpected error occurred. Please try again later.</p>';
                         formResponse.style.display = 'block';
                     }
                 } else {
-                    // Handle HTTP error
+                
                     formResponse.className = 'alert alert-danger';
                     formResponse.innerHTML = '<p>Server error: ' + xhr.status + '. Please try again later.</p>';
                     formResponse.style.display = 'block';
                 }
                 
-                // Scroll to response message
+                
                 formResponse.scrollIntoView({ behavior: 'smooth' });
             };
             
             xhr.onerror = function() {
-                // Handle network error
+            
                 formLoading.style.display = 'none';
                 submitBtn.disabled = false;
                 formResponse.className = 'alert alert-danger';
@@ -285,14 +282,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 formResponse.style.display = 'block';
             };
             
-            // Send the request
+       
             xhr.send(formData);
         }
     });
 });
 </script>
 
-<!-- custom js file link  -->
+>
 <script src="js/script.js"></script>
    
 </body>

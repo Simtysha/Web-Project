@@ -49,10 +49,8 @@ if(isset($_POST['tutor_fetch'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Tutor's Profile</title>
 
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -60,7 +58,6 @@ if(isset($_POST['tutor_fetch'])){
 
 <?php include 'components/user_header.php'; ?>
 
-<!-- teachers profile section starts  -->
 
 <section class="tutor-profile">
 
@@ -85,7 +82,6 @@ if(isset($_POST['tutor_fetch'])){
 
 </section>
 
-<!-- teachers profile section ends -->
 
 
 <section class="courses">
@@ -129,7 +125,6 @@ if(isset($_POST['tutor_fetch'])){
 </section>
 
 
-<!-- custom js file link  -->
 <script src="js/script.js"></script>
    
 </body>

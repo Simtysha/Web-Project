@@ -134,10 +134,8 @@ if(isset($_POST['update_now'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Watch Video</title>
 
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
    <style>
@@ -180,7 +178,6 @@ if(isset($_POST['update_now'])){
    }
    </style>
 
-   <!-- jQuery CDN -->
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
@@ -188,7 +185,6 @@ if(isset($_POST['update_now'])){
 
 <?php include 'components/user_header.php'; ?>
 
-<!-- Notification area -->
 <div id="notification" class="notification"></div>
 
 <?php
@@ -218,7 +214,6 @@ if(isset($_POST['update_now'])){
 }
 ?>
 
-<!-- watch video section starts  -->
 
 <section class="watch-video">
 
@@ -285,9 +280,7 @@ if(isset($_POST['update_now'])){
 </section>
 
 
-<!-- watch video section ends -->
 
-<!-- comments section starts  -->
 
 <section class="comments">
 
@@ -347,7 +340,6 @@ if(isset($_POST['update_now'])){
 
 <script>
 $(document).ready(function() {
-    // Function to show notification
     function showNotification(message) {
         $('#notification').text(message).fadeIn();
         setTimeout(function() {
@@ -355,7 +347,6 @@ $(document).ready(function() {
         }, 3000);
     }
 
-    // Like functionality with AJAX
     $('.like-btn').on('click', function(e) {
         e.preventDefault();
         const contentId = $(this).data('content-id');
@@ -393,7 +384,6 @@ $(document).ready(function() {
         });
     });
 
-    // Comment submission with AJAX
     $('#comment-form').on('submit', function(e) {
         e.preventDefault();
         const commentData = {
@@ -408,9 +398,7 @@ $(document).ready(function() {
             data: commentData,
             success: function(response) {
                 if(response.status === 'success') {
-                    // Remove "no comments" message if it exists
                     $('.no-comments-message').remove();
-                    // Append new comment to the list
                     const newComment = response.comment_html;
                     $('.comments-container').prepend(newComment);
                     $('#comment-form')[0].reset();
@@ -423,7 +411,6 @@ $(document).ready(function() {
         });
     });
 
-    // Delete comment with AJAX
     $(document).on('click', '.delete-comment', function(e) {
         e.preventDefault();
         const commentId = $(this).data('comment-id');
@@ -450,7 +437,6 @@ $(document).ready(function() {
         }
     });
 
-    // Edit comment with AJAX
     $(document).on('click', '.edit-comment-btn', function(e) {
         e.preventDefault();
         const commentId = $(this).data('comment-id');
@@ -467,7 +453,6 @@ $(document).ready(function() {
         $(this).closest('.comment-box').find('.comment-text').hide().after(editForm);
     });
 
-    // Handle edit comment submission
     $(document).on('submit', '.edit-comment-form', function(e) {
         e.preventDefault();
         const commentBox = $(this).closest('.comment-box');
@@ -496,7 +481,6 @@ $(document).ready(function() {
         });
     });
 
-    // Cancel comment edit
     $(document).on('click', '.cancel-edit', function() {
         const commentBox = $(this).closest('.comment-box');
         commentBox.find('.comment-text').show();

@@ -20,10 +20,9 @@ if (isset($_COOKIE['user_id'])) {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>About Us</title>
 
-   <!-- font awesome cdn link  -->
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -34,7 +33,7 @@ if (isset($_COOKIE['user_id'])) {
       const slides = $('.carousel-slide');
       const totalSlides = slides.length;
 
-      // Hide all slides except first one
+ 
       slides.hide();
       slides.first().show();
 
@@ -48,7 +47,7 @@ if (isset($_COOKIE['user_id'])) {
          showSlide(currentSlide);
       }
 
-      // Auto advance slides every 3 seconds
+
       setInterval(nextSlide, 3000);
    });
    </script>
@@ -93,18 +92,18 @@ if (isset($_COOKIE['user_id'])) {
          <h1 class="heading">Statistics</h1>
       </div>
    </section>
-   <!-- about section ends -->
+
 
    <section class="reviews">
       <h1 class="heading">student's reviews</h1>
       <div class="box-container" id="reviews-container">
-         <!-- Reviews will be loaded here -->
+  
       </div>
    </section>
 
    <script>
    $(document).ready(function() {
-      // Load statistics
+
       $.ajax({
          url: 'ajax/statistics_handler.php',
          type: 'GET',
@@ -133,7 +132,6 @@ if (isset($_COOKIE['user_id'])) {
          }
       });
 
-      // Load reviews
       $.ajax({
          url: 'ajax/reviews_handler.php',
          type: 'GET',

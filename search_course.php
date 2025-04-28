@@ -8,7 +8,6 @@ if (isset($_COOKIE['user_id'])) {
    $user_id = '';
 }
 
-// Get the search query from GET parameter
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 ?>
 
@@ -21,13 +20,13 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Search Courses</title>
 
-   <!-- font awesome cdn link  -->
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <!-- custom css file link  -->
+
    <link rel="stylesheet" href="css/style.css">
 
-   <!-- jQuery CDN -->
+
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 </head>
@@ -36,7 +35,6 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
    <?php include 'components/user_header.php'; ?>
 
-   <!-- courses section starts  -->
 
    <section class="courses">
 
@@ -46,16 +44,13 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
          <?php if (empty($search_query)): ?>
             <p class="empty">please search something!</p>
          <?php else: ?>
-            <!-- Initial content will be replaced by AJAX -->
+
             <p class="empty">Loading results...</p>
          <?php endif; ?>
       </div>
 
    </section>
 
-   <!-- courses section ends -->
-
-   <!-- Login notification modal (initially hidden) -->
    <div id="login-modal" class="modal">
       <div class="modal-content">
          <div class="modal-header">
@@ -74,7 +69,7 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
    <script>
       $(document).ready(function() {
-         // Function to perform the search
+
          function performSearch(query) {
             if (query.length > 0) {
                $.ajax({
@@ -85,7 +80,7 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
                   },
                   success: function(response) {
                      $('#search-results').html(response);
-                     // Add click handlers for view playlist buttons after content is loaded
+
                      addViewPlaylistHandlers();
                   },
                   error: function() {
@@ -97,7 +92,6 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
             }
          }
 
-         // Function to add click handlers for view playlist buttons
          function addViewPlaylistHandlers() {
             $('.view-playlist-btn').on('click', function(e) {
                e.preventDefault();
@@ -105,13 +99,11 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
             });
          }
 
-         // Handle search input from the header
          $('.header .search-form input[type="text"]').on('input', function() {
             const query = $(this).val().trim();
             performSearch(query);
          });
 
-         // Handle initial search if URL has search parameter
          const urlParams = new URLSearchParams(window.location.search);
          const searchQuery = urlParams.get('search');
          if (searchQuery) {
@@ -119,12 +111,10 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
             performSearch(searchQuery);
          }
 
-         // Close modal when clicking the close button
          $('.close-modal').on('click', function() {
             $('#login-modal').css('display', 'none');
          });
 
-         // Close modal when clicking outside of it
          $(window).on('click', function(event) {
             if (event.target == document.getElementById('login-modal')) {
                $('#login-modal').css('display', 'none');
@@ -134,7 +124,6 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
    </script>
 
    <style>
-      /* Modal styles */
       .modal {
          display: none;
          position: fixed;
@@ -236,19 +225,16 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
          font-weight: 500;
       }
 
-      /* Remove border radius from modal boxes */
 .login-required-modal,
 .modal-content,
 .modal-dialog,
 .modal-box,
 .modal-wrapper,
-/* Add any other modal-related class names */
 [class*="modal"] {
     border-radius: 0 !important;
 }
 
 
-/* Target specific button elements */
 .modal-content .btn,
 .login-btn,
 .register-btn,
