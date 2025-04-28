@@ -57,11 +57,10 @@ $(document).ready(function() {
                      </div>
                      <h3 class="title">${pl.title}</h3>
                      <p class="description">${pl.description.slice(0, 100)}</p>
-                     <form action="update_playlist.php" method="post" class="flex-btn">
-                        <input type="hidden" name="playlist_id" value="${pl.id}">
+                     <div class="flex-btn">
                         <a href="update_playlist.php?get_id=${pl.id}" class="option-btn">Update</a>
-                        <input type="submit" value="Delete" class="delete-btn" onclick="return confirm('delete this playlist?');" name="delete">
-                     </form>
+                        <button class="delete-btn" onclick="deletePlaylist('${pl.id}')">Delete</button>
+                     </div>
                      <a href="view_playlist.php?get_id=${pl.id}" class="btn">View playlist</a>
                   </div>
                `;
@@ -73,7 +72,31 @@ $(document).ready(function() {
          $('#playlist-container').append('<p class="empty">Failed to load playlists.</p>');
       }
    });
+   
+   // Function to handle playlist deletion
+   window.deletePlaylist = function(playlistId) {
+      if (confirm('Are you sure you want to delete this playlist?')) {
+         $.ajax({
+            url: 'delete_playlist.php',
+            method: 'POST',
+            data: { playlist_id: playlistId },
+            dataType: 'json',
+            success: function(response) {
+               if (response.success) {
+                  alert('Playlist deleted successfully!');
+                  location.reload(); // Refresh the page to show updated list
+               } else {
+                  alert(response.error || 'Failed to delete playlist.');
+               }
+            },
+            error: function() {
+               alert('An error occurred while trying to delete the playlist.');
+            }
+         });
+      }
+   };
 });
+
 </script>
 
 <script src="../js/admin_script.js"></script>
